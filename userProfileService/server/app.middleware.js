@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const swaggerUi = require('swagger-ui-express');
 const YAML = require('yamljs');
 const path = require('path');
+const morgan = require('morgan');
 
 const log = require('./logging');
 
@@ -15,6 +16,8 @@ const setMiddleware = (app) => {
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(cors());
   app.use('/api-specs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+  morgan.token('time', () => new Date().toISOString());
+  app.use(morgan('[:time] :remote-addr :method :url :status :res[content-length] :response-time ms'));
 }
 
 module.exports = {
