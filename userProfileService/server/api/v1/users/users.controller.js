@@ -18,6 +18,7 @@ const login = (req, res) => {
       res.status(result.status).json({ user: result.user, token: result.token });
     })
     .catch((error) => {
+      console.log(error);
       res.status(error.status).json(error);
     });
 }

@@ -6,6 +6,11 @@ const users = {
     user2: { username: 'user2', password: 'pass2' }
 };
 
+const incorrectUsers = {
+    userWithoutUserName: { password: 'pass1' },
+    userWithoutPassword: { username: 'user1' }
+};
+
 const registeredUsers = [
   { userName: 'user1', password: 'pass1', userId: 'some-unique-user-id-1' },
   { userName: 'user2', password: 'pass2', userId: 'some-unique-user-id-2' },
@@ -21,7 +26,10 @@ const userInfo = {
 const responseMessages = {
     userExists: 'username is already exist',
     incorrectPassword: 'Passwords is incorrect',
-    incorrectUserName: 'You are not registered user'
+    incorrectUserName: 'You are not registered user',
+    userNameIsRequired: 'username is required',
+    passwordIsRequired: 'password is required',
+    userNameAndPasswordRequired: 'username and password are required'
 };
 
 const auth = {
@@ -36,5 +44,6 @@ module.exports = {
     userInfo,
     registeredUsers,
     responseMessages,
-    auth
+    auth,
+    incorrectUsers
 };

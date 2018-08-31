@@ -61,6 +61,66 @@ describe('Testing to register a user', function()
         done();
       });
   });
+
+  // negative testcase
+  it('Should handle a request to register a user without username', function(done)
+  {
+    //Response body should have a key as message which will hold value as 'username is required'
+    // status code = 403
+    // response body will hold an object with message key
+    const user1 = config.incorrectUsers.userWithoutUserName;
+    const errorMessage = config.responseMessages.userNameIsRequired;
+    request(app)
+      .post('/api/v1/users/register')
+      .send(user1)
+      .expect(403)
+      .end((error, response) => {
+        if(error) return done(error);
+        const actualMessage = response.body.message;
+        actualMessage.should.equal(errorMessage, 'response should have proper error message');
+        done();
+      });
+  });
+
+  // negative testcase
+  it('Should handle a request to register a user without password', function(done)
+  {
+    //Response body should have a key as message which will hold value as 'password is required'
+    // status code = 403
+    // response body will hold an object with message key
+    const user1 = config.incorrectUsers.userWithoutPassword;
+    const errorMessage = config.responseMessages.passwordIsRequired;
+    request(app)
+      .post('/api/v1/users/register')
+      .send(user1)
+      .expect(403)
+      .end((error, response) => {
+        if(error) return done(error);
+        const actualMessage = response.body.message;
+        actualMessage.should.equal(errorMessage, 'response should have proper error message');
+        done();
+      });
+  });
+
+  // negative testcase
+  it('Should handle a request to register a user without username and password', function(done)
+  {
+    //Response body should have a key as message which will hold value as 'username and password are required'
+    // status code = 403
+    // response body will hold an object with message key
+    const user1 = { };
+    const errorMessage = config.responseMessages.userNameAndPasswordRequired;
+    request(app)
+      .post('/api/v1/users/register')
+      .send(user1)
+      .expect(403)
+      .end((error, response) => {
+        if(error) return done(error);
+        const actualMessage = response.body.message;
+        actualMessage.should.equal(errorMessage, 'response should have proper error message');
+        done();
+      });
+  });
 });
 
 //  testsuite
@@ -123,6 +183,66 @@ describe('Testing to login user', function()
         if(error) return done(error);
         const message = response.body.message;
         message.should.equal(expectedError, 'response should return proper error message');
+        done();
+      });
+  });
+
+  // negative testcase
+  it('Should handle a request to login a user without username', function(done)
+  {
+    //Response body should have a key as message which will hold value as 'username is required'
+    // status code = 403
+    // response body will hold an object with message key
+    const user1 = config.incorrectUsers.userWithoutUserName;
+    const errorMessage = config.responseMessages.userNameIsRequired;
+    request(app)
+      .post('/api/v1/users/login')
+      .send(user1)
+      .expect(403)
+      .end((error, response) => {
+        if(error) return done(error);
+        const actualMessage = response.body.message;
+        actualMessage.should.equal(errorMessage, 'response should have proper error message');
+        done();
+      });
+  });
+
+  // negative testcase
+  it('Should handle a request to login a user without password', function(done)
+  {
+    //Response body should have a key as message which will hold value as 'password is required'
+    // status code = 403
+    // response body will hold an object with message key
+    const user1 = config.incorrectUsers.userWithoutPassword;
+    const errorMessage = config.responseMessages.passwordIsRequired;
+    request(app)
+      .post('/api/v1/users/login')
+      .send(user1)
+      .expect(403)
+      .end((error, response) => {
+        if(error) return done(error);
+        const actualMessage = response.body.message;
+        actualMessage.should.equal(errorMessage, 'response should have proper error message');
+        done();
+      });
+  });
+
+  // negative testcase
+  it('Should handle a request to login a user without username and password', function(done)
+  {
+    //Response body should have a key as message which will hold value as 'username and password are required'
+    // status code = 403
+    // response body will hold an object with message key
+    const user1 = { };
+    const errorMessage = config.responseMessages.userNameAndPasswordRequired;
+    request(app)
+      .post('/api/v1/users/login')
+      .send(user1)
+      .expect(403)
+      .end((error, response) => {
+        if(error) return done(error);
+        const actualMessage = response.body.message;
+        actualMessage.should.equal(errorMessage, 'response should have proper error message');
         done();
       });
   });
