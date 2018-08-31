@@ -13,8 +13,8 @@ app.use('/healthcheck', (req, res) => {
 	res.send("It's running...!");
 });
 
-proxyUserProfile = httpProxy({ target: config.USER_PROFILE_URL, pathRewrite: {'^/users/' : '/'} });
-app.use('/users/', proxyUserProfile);
+proxyUserProfile = httpProxy({ target: config.USER_PROFILE_URL });
+app.use('/api/v*/users', proxyUserProfile);
 
 app.use((req, res) => {
 	res.status(404).send({message: 'Resource not found..!'});
