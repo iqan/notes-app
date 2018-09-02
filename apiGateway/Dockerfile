@@ -8,7 +8,7 @@ RUN mkdir /app
 
 WORKDIR /app
 
-COPY package*.json .
+COPY package*.json ./
 
 RUN npm i
 
