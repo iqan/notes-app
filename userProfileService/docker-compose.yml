@@ -17,7 +17,7 @@ services:
      - MONGO_URL=mongodb://na_db:27017/notes-app
     restart: on-failure
     depends_on:
-      -na_db
+      - na_db
   na_db:
     image: "mongo:4.1.1-xenial"
     container_name: na_db
