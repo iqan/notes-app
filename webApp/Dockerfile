@@ -1,4 +1,4 @@
-FROM node:10.8.0-alpine
+FROM node:10.8.0-alpine AS build-stage
 
 LABEL Maintainer="Iqan Shaikh"
 
@@ -8,10 +8,16 @@ RUN mkdir /app
 
 WORKDIR /app
 
-COPY . .
+COPY package*.json .
 
 RUN npm i
 
-EXPOSE ${PORT}
+COPY . .
 
-ENTRYPOINT [ "npm", "start" ]
+ARG configuration=production
+
+RUN npm run build -- --output-path=./dist/out --configuration $configuration
+
+FROM nginx:1.15
+
+COPY --from=build-stage /app/dist/out/ /usr/share/nginx/html
