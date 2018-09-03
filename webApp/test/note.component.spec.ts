@@ -43,7 +43,9 @@ import {
   ListViewDummyComponent,
   NoteViewDummyComponent,
   DashboardDummyComponent,
-  AppDummyComponent} from './routes.test';
+  AppDummyComponent,
+  LogoutDummyComponent
+} from './routes.test';
 
 
 const testConfig = {
@@ -77,7 +79,9 @@ describe('NoteComponent', () => {
       ListViewDummyComponent,
       NoteViewDummyComponent,
       DashboardDummyComponent,
-      AppDummyComponent],
+      AppDummyComponent,
+      LogoutDummyComponent
+    ],
       schemas: [NO_ERRORS_SCHEMA],
       imports: [
       RouterTestingModule.withRoutes(routes),

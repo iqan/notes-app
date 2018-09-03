@@ -2,13 +2,19 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Login } from '../login';
 import 'rxjs/add/operator/map';
+import { BehaviorSubject } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Injectable()
 export class AuthenticationService {
   baseUrl = 'http://localhost:3000/api/v1/users/';
   authTokenName = 'bearerToken';
+  isAuthenticated: boolean;
+  isAuthenticatedSubject: BehaviorSubject<boolean>;
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {
+    this.isAuthenticatedSubject = new BehaviorSubject(this.isAuthenticated);
+  }
 
   register(data: Login) {
     return this.httpClient.post(`${this.baseUrl}register`, data);
@@ -29,11 +35,24 @@ export class AuthenticationService {
   isUserAuthenticated(token): Promise<boolean> {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.httpClient.post(`${this.baseUrl}isAuthenticated`, { }, { headers })
+      .pipe(tap(
+        data => { 
+          this.isAuthenticated = data['isAuthenticated'];
+          this.isAuthenticatedSubject.next(this.isAuthenticated);
+        },
+        error => { }
+      ))
       .map(res => res['isAuthenticated'])
       .toPromise();
   }
 
+  getAuthenticatedSubject() {
+    return this.isAuthenticatedSubject;
+  }
+
   logout() {
     localStorage.removeItem(this.authTokenName);
+    this.isAuthenticatedSubject.next(false);
+    this.isAuthenticated = false;
   }
 }

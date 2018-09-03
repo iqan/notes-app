@@ -1,6 +1,10 @@
 <mat-toolbar color="primary">Keep
-	<div class="keep-c-toggle-view">
+	<span class="fill-remaining-space"></span>
+	<div>
 		<i *ngIf="isNoteView" class="material-icons switchToListView" (click)='switchToListView()'>view_list</i>
 		<i *ngIf="!isNoteView" class="material-icons switchToNoteView" (click)='switchToNoteView()'>view_quilt</i>
+		<span>&nbsp;&nbsp;</span>
+		<button id="btnLogout" mat-button *ngIf="isAuthenticated" (click)='logout()'>Logout</button>
+		<button id="btnLogin" mat-button *ngIf="!isAuthenticated" (click)='login()'>Login</button>
 	</div>
 </mat-toolbar>

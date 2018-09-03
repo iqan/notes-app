@@ -14,6 +14,12 @@ export class EditNoteOpenerDummyComponent { }
 export class LoginDummyComponent { }
 
 @Component({
+    selector: 'app-dummy-logout',
+    template: '<p>Dummy</p>'
+})
+export class LogoutDummyComponent { }
+
+@Component({
     selector: 'app-dummy-list-view',
     template: '<p>Dummy</p>'
 })
@@ -41,6 +47,10 @@ export const routes: Routes = [
     {
         path: 'login',
         component: LoginDummyComponent
+    },
+    {
+        path: 'logout',
+        component: LogoutDummyComponent
     },
     {
         path: 'dashboard',

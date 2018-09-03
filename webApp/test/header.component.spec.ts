@@ -35,6 +35,9 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Location } from '@angular/common';
 import { RouterService } from '../src/app/services/router.service';
+import { AuthenticationService } from '../src/app/services/authentication.service';
+import { BehaviorSubject } from 'rxjs';
+import { HttpClientModule } from '@angular/common/http';
 import {
   routes,
   EditNoteOpenerDummyComponent,
@@ -42,7 +45,9 @@ import {
   ListViewDummyComponent,
   NoteViewDummyComponent,
   DashboardDummyComponent,
-  AppDummyComponent} from './routes.test';
+  AppDummyComponent,
+  LogoutDummyComponent
+} from './routes.test';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -51,6 +56,8 @@ describe('HeaderComponent', () => {
   let element: any;
   let router: Router;
   let location: Location;
+  let authService: AuthenticationService;
+  let spyIsAuthenticated: any;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -61,10 +68,12 @@ describe('HeaderComponent', () => {
       ListViewDummyComponent,
       NoteViewDummyComponent,
       DashboardDummyComponent,
-      AppDummyComponent
+      AppDummyComponent,
+      LogoutDummyComponent
       ],
       imports: [
       RouterTestingModule.withRoutes(routes),
+      HttpClientModule,
       MatAutocompleteModule,
       MatCheckboxModule,
       MatDatepickerModule,
@@ -96,7 +105,7 @@ describe('HeaderComponent', () => {
       MatSortModule,
       MatTableModule
       ],
-      providers: [ RouterService ]
+      providers: [ RouterService, AuthenticationService ]
     })
     .compileComponents();
   }));
@@ -105,6 +114,8 @@ describe('HeaderComponent', () => {
     fixture = TestBed.createComponent(HeaderComponent);
     router =  TestBed.get(Router);
     location = TestBed.get(Location);
+    authService = TestBed.get(AuthenticationService);
+    spyIsAuthenticated = spyOn(authService, 'getAuthenticatedSubject').and.returnValue(BehaviorSubject.of(false));
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -143,6 +154,61 @@ describe('HeaderComponent', () => {
     }
   }));
 
+  it('should show Logout when user is authenticated', fakeAsync(() => {
+    component.isAuthenticated = true;
+    fixture.detectChanges();
+    debugElement = fixture.debugElement.query(By.css('#btnLogout'));
+    if(debugElement) {
+      const element = debugElement.nativeElement;
+      expect(element.textContent).toBe('Logout', 'when user is authenticated, Logout button should be visible');
+    } else {
+      expect(false).toBe(true, `should have an element with id 'btnLogout' in header.componenet.html`);
+    }
+  }));
 
+  it('should show Login when user is authenticated', fakeAsync(() => {
+    component.isAuthenticated = false;
+    fixture.detectChanges();
+    debugElement = fixture.debugElement.query(By.css('#btnLogin'));
+    if(debugElement) {
+      const element = debugElement.nativeElement;
+      expect(element.textContent).toBe('Login', 'when user is authenticated, Login button should be visible');
+    } else {
+      expect(false).toBe(true, `should have an element with id 'btnLogin' in header.componenet.html`);
+    }
+  }));
 
+  
+  it('should handle navigation to login view', fakeAsync(() => {
+    component.isAuthenticated = false;
+    fixture.detectChanges();
+    debugElement = fixture.debugElement.query(By.css('#btnLogin'));
+    if (debugElement) {
+      element = debugElement.nativeElement;
+      element.click();
+      tick();
+      expect(location.path()).toContain('/login',
+        `should navigate to login view page`);
+    } else {
+      expect(false).toBe(true,
+        `should have an element with id 'btnLogin' in your header.component.html`);
+    }
+  }));
+
+  
+  it('should handle navigation to logout view', fakeAsync(() => {
+    component.isAuthenticated = true;
+    fixture.detectChanges();
+    debugElement = fixture.debugElement.query(By.css('#btnLogout'));
+    if (debugElement) {
+      element = debugElement.nativeElement;
+      element.click();
+      tick();
+      expect(location.path()).toContain('/logout',
+        `should navigate to note logout page:${location.path()}`);
+    } else {
+      expect(false).toBe(true,
+        `should have an element with id 'btnLogout' in your header.component.html`);
+    }
+  }));
 });
