@@ -18,6 +18,9 @@ app.use('/healthcheck', (req, res) => {
 proxyUserProfile = httpProxy({ target: config.USER_PROFILE_URL, changeOrigin: true });
 app.use('/api/v*/users', proxyUserProfile);
 
+proxyNotesService = httpProxy({ target: config.NOTES_URL, changeOrigin: true });
+app.use('/api/v*/notes', proxyNotesService);
+
 app.use((req, res) => {
 	res.status(404).send({message: 'Resource not found..!'});
 });
