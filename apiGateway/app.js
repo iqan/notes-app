@@ -13,7 +13,7 @@ app.use('/healthcheck', (req, res) => {
 	res.send("It's running...!");
 });
 
-proxyUserProfile = httpProxy({ target: config.USER_PROFILE_URL });
+proxyUserProfile = httpProxy({ target: config.USER_PROFILE_URL, changeOrigin: true });
 app.use('/api/v*/users', proxyUserProfile);
 
 app.use((req, res) => {
