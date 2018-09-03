@@ -1,0 +1,133 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Notes App - Notes Service
+servers:
+  - url: http://localhost:3000/api/v1
+paths:
+  /notes:
+    get:
+      summary: List all notes
+      security:
+        - BearerAuth: []
+      tags:
+        [ 'notes' ]
+      parameters:
+      responses:
+        '200':
+          description: An array of notes
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Notes"
+        '403':
+          description: UnAuthorized or forbidden
+        '500':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      summary: Create a note
+      security:
+        - BearerAuth: []
+      tags:
+        [ 'notes' ]
+      parameters:
+      requestBody:
+        description: note details
+        required: true
+        content:
+           application/json:
+            schema:
+              $ref: "#/components/schemas/Note"
+      responses:
+        '201':
+          description: Created note
+        '403':
+          description: UnAuthorized or forbidden
+        '500':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /notes/{noteId}:
+    put:
+      summary: Update a specific note
+      security:
+        - BearerAuth: []
+      operationId: showNoteById
+      tags:
+        - notes
+      parameters:
+        - name: noteId
+          in: path
+          required: true
+          description: The id of the note to retrieve
+          schema:
+            type: string
+      requestBody:
+        description: note details
+        required: true
+        content:
+           application/json:
+            schema:
+              $ref: "#/components/schemas/Note"
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Note"
+        '403':
+          description: UnAuthorized or forbidden
+        '500':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    Note:
+      required:
+        - id
+        - title
+        - text
+        - state
+        - userId
+        - createdOn
+        - modifiedOn
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        text:
+          type: string
+        state:
+          type: string
+        userId:
+          type: string
+        createdOn:
+          type: string
+        modifiedOn:
+          type: string
+    Notes:
+      type: array
+      items:
+        $ref: "#/components/schemas/Note"
+    Error:
+      required:
+        - message
+      properties:
+        message:
+          type: string
