@@ -10,7 +10,7 @@ services:
     build: ./webApp
     container_name: na_web_app
     ports:
-     - "80:80"
+     - "8000:80"
     networks:
      - na_network
     restart: on-failure
@@ -27,6 +27,8 @@ services:
     restart: on-failure
     depends_on:
       - na_user_profile
+    environment:
+      - USER_PROFILE_URL=http://na_user_profile:3001/
   na_user_profile:
     image: "iqan/na-user-profile:1.0.0"
     build: ./userProfileService
