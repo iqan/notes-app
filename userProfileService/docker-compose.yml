@@ -1,0 +1,29 @@
+version: '3'
+
+networks:
+  na_network:
+    driver: bridge
+
+services:
+  na_user_profile:
+    image: "iqan/na_user_profile:1.0.0"
+    build: .
+    container_name: na_user_profile
+    ports:
+     - "3001:3001"
+    networks:
+     - na_network
+    environment:
+     - MONGO_URL=mongodb://na_db:27017/notes-app
+    restart: on-failure
+    depends_on:
+      - na_db
+  na_db:
+    image: "mongo:4.1.1-xenial"
+    container_name: na_db
+    expose:
+      - 27017
+    ports:
+      - "27017:27017"
+    networks:
+      - na_network
