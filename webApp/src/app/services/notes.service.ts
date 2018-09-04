@@ -4,10 +4,11 @@ import { Note } from './../note';
 import { AuthenticationService } from './authentication.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class NotesService {
-  baseUrl = 'http://localhost:3000/api/v1/notes';
+  baseUrl = environment.apiGatewayUrl + 'api/v1/notes';
   notes: Array<Note>;
   notesSubject: BehaviorSubject<Array<Note>>;
 

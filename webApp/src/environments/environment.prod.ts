@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  apiGatewayUrl: 'http://na_api_gateway:3000/'
 };

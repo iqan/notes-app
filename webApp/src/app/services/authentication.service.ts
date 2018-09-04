@@ -4,10 +4,11 @@ import { Login } from '../login';
 import 'rxjs/add/operator/map';
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class AuthenticationService {
-  baseUrl = 'http://localhost:3000/api/v1/users/';
+  baseUrl = environment.apiGatewayUrl + 'api/v1/users/';
   authTokenName = 'bearerToken';
   isAuthenticated: boolean;
   isAuthenticatedSubject: BehaviorSubject<boolean>;
@@ -36,7 +37,7 @@ export class AuthenticationService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.httpClient.post(`${this.baseUrl}isAuthenticated`, { }, { headers })
       .pipe(tap(
-        data => { 
+        data => {
           this.isAuthenticated = data['isAuthenticated'];
           this.isAuthenticatedSubject.next(this.isAuthenticated);
         },
