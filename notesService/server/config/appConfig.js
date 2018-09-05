@@ -12,8 +12,13 @@ const logConfig = {
   level: 'debug'
 };
 
+const authConfig = {
+  secret: 'some-secret-value'
+};
+
 module.exports = {
   appConfig,
   dbConfig,
-  logConfig
+  logConfig,
+  authConfig
 }

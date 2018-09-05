@@ -25,20 +25,9 @@ before((done) => {
   });
 });
 
-// clear users collection
-before((done) => {
-  modules.userModel.remove({}, (err) => {
-    if(err) return done(err);
-    done();
-  });
-});
-
 // register 2 users
 before((done) => {
-  modules.userModel.insertMany(config.registeredUsers, (err) => {
-    if(err) return done(err);
-    done();
-  });
+  done();
 });
 
 // Get JWT token for user 1
