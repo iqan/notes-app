@@ -1,7 +1,9 @@
 // write your application configration here
 
 const appConfig = {
-  port: process.env.PORT || 3000
+  port: process.env.PORT || 3000,
+  enableStub: process.env.ENABLE_STUB || true,
+  userProfileUrl: process.env.USER_PROFILE_URL || 'http://localhost:3001/'
 };
 
 const dbConfig = {

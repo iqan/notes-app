@@ -18,7 +18,6 @@ const login = (req, res) => {
       res.status(result.status).json({ user: result.user, token: result.token });
     })
     .catch((error) => {
-      console.log(error);
       res.status(error.status).json(error);
     });
 }
@@ -27,8 +26,20 @@ const isAuthenticated = (req, res) => {
   res.status(200).json({ isAuthenticated: true });
 }
 
+const getByUserName = (req, res) => {
+  const userName = req.params.username;
+  usersServices.getByUserName(userName)
+    .then((result) => {
+      res.status(result.status).json(result.user);
+    })
+    .catch((error) => {
+      res.status(error.status).json(error);
+    });
+}
+
 module.exports = {
   register,
   login,
-  isAuthenticated
+  isAuthenticated,
+  getByUserName
 }
