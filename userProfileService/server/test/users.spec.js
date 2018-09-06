@@ -247,3 +247,36 @@ describe('Testing to login user', function()
       });
   });
 });
+
+describe('Testing Internal API calls', function() {
+  it('Should handle request to get user by username that exists', function(done) {
+    const user1 = config.userInfo.user1;
+    request(app)
+      .get('/api/v1/users/getbyusername/' + user1.userName)
+      .expect(200)
+      .end((error, response) => {
+        if(error) return done(error);
+        const user = response.body;
+        user.should.not.equal(undefined);
+        user.should.not.equal(null);
+        user.userName.should.equal(user1.userName);
+        user.userId.should.not.equal(null);
+        done();
+      });
+  });
+
+  it('Should handle request to get user by username that does not exist', function(done) {
+    const userName = 'not-available-user';
+    request(app)
+      .get('/api/v1/users/getbyusername/' + userName)
+      .expect(404)
+      .end((error, response) => {
+        if(error) return done(error);
+        const body = response.body;
+        body.should.not.equal(undefined);
+        body.should.not.equal(null);
+        body.message.should.equal('User not found');
+        done();
+      });
+  });
+});

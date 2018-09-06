@@ -76,15 +76,28 @@ const login = (userToLogin) =>{
 }
 
 const getUserByUserName = (userName) => {
-  const user = new userModel({
-    userName: userName
+  return new Promise((resolve, reject) => {
+    try {
+      log.info('getting user by userName: ' + userName);
+      const user = new userModel({
+        userName: userName
+      });
+    
+      user.findByUserName((err, user) => {
+        if(err) throw err;
+        if(user) {
+          log.info('User found for userName: ' + userName);
+          resolve({ status: 200, user: user });
+        } else {
+          log.info('User Not found for userName: ' + userName);
+          reject({ status: 404, message: 'User not found' });
+        }
+      });
+    } catch (err) {
+      log.error(err);
+      reject({ message: 'Failed to get User due to unexpected error', status: 500 });
+    }
   });
-
-  user.findByUserName((err, user) => {
-    if(err) throw err;
-    return user;
-  });
-  return null;
 }
 
 module.exports = {
