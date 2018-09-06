@@ -66,11 +66,22 @@ const shareNotes = (res, collaborator, notes) => {
     });
 }
 
+const deleteNote = (res, noteId) => {
+  notesDao.deleteNote(noteId)
+    .then((result) => {
+      res.status(200).json(result);
+    })
+    .catch((error) => {
+      res.status(error.status).json(error);
+    });
+}
+
 module.exports = {
   getNotesByUserId,
   updateNote,
   addNote,
   getNotesAsStream,
   uploadNotes,
-  shareNotes
+  shareNotes,
+  deleteNote
 }

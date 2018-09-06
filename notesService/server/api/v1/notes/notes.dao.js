@@ -141,11 +141,27 @@ const addCollaborator = (collaborator, notes) => {
   });
 }
 
+const deleteNote = (noteId) => {
+  return new Promise((resolve, reject) => {
+    try {
+      noteModel.remove({ id: noteId }, (err) => {
+        if(err) throw err;
+        log.debug('note deleted');
+        resolve({ message: 'note deleted', status: 200 });
+      });
+    } catch (err) {
+      log.error(err);
+      reject({ message: 'Failed to delete note due to unexpected error', status: 500 });
+    }
+  });
+}
+
 module.exports = {
   createNote,
   getAllNotes,
   updateNote,
   readNotesAsStream,
   bulkInsert,
-  addCollaborator
+  addCollaborator,
+  deleteNote
 }

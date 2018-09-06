@@ -34,11 +34,17 @@ const shareNotes = (req, res) => {
   notesService.shareNotes(res, collaborator, notes);
 }
 
+const deleteNote = (req, res) => {
+  const noteId = req.params.noteId;
+  notesService.deleteNote(res, noteId);
+}
+
 module.exports = {
   getNotes,
   updateNote,
   createNote,
   getNotesAsStream,
   uploadNotes,
-  shareNotes
+  shareNotes,
+  deleteNote
 }

@@ -313,3 +313,31 @@ describe('Note share scenarios', function() {
     });
   });
 });
+
+describe('Delete note scenarios', function (){
+  it('Should handle request to delete note', function(done) {
+    const note1 = config.notes.note1;
+    const note = new modules.noteModel({
+      id: uuidv4(),
+      title: note1.title,
+      text: note1.text,
+      userId: note1.userId
+    });
+    note.save((err, savedNote) => {
+      if(err) return done(err);
+      const noteId = savedNote.id;
+      request(app)
+        .delete(`/api/v1/notes/${noteId}`)
+        .set('Authorization', 'Bearer ' + user1Token)
+        .expect(200)
+        .end((error, response) => {
+          if(error) return done(error);
+          const body = response.body;
+          body.should.not.equal(undefined);
+          body.should.not.equal(null);
+          body.message.should.equal('note deleted', 'response should return message note deleted');
+          done();
+        });
+      });
+  });
+});

@@ -10,5 +10,6 @@ router.post('/', notesController.createNote);
 router.get('/stream', notesController.getNotesAsStream);
 router.post('/stream', upload.single('notes'), notesController.uploadNotes);
 router.post('/share', notesController.shareNotes);
+router.delete('/:noteId', notesController.deleteNote);
 
 module.exports = router;
