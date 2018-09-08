@@ -4,13 +4,13 @@ export class Note {
   text: string;
   state: string;
   isFavourite: boolean;
-  group: string;
+  groupName: string;
 
   constructor() {
     this.title = '';
     this.text = '';
     this.state = 'not-started';
-    this.group = null;
+    this.groupName = null;
     this.isFavourite = false;
   }
 }

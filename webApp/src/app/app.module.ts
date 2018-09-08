@@ -17,7 +17,8 @@ import {
   MatOptionModule,
   MatSelectModule,
   MatDialogModule,
-  MatSidenavModule
+  MatSidenavModule,
+  MatTooltipModule
 } from '@angular/material';
 
 // components inports
@@ -31,6 +32,10 @@ import { LoginComponent } from './login/login.component';
 import { NoteComponent } from './note/note.component';
 import { NoteTakerComponent } from './note-taker/note-taker.component';
 import { NoteViewComponent } from './note-view/note-view.component';
+import { RegisterComponent } from './register/register.component';
+import { LogoutComponent } from './logout/logout.component';
+import { GroupNoteOpenerComponent } from './group-note-opener/group-note-opener.component';
+import { GroupNoteViewComponent } from './group-note-view/group-note-view.component';
 
 // services imports
 import { NotesService } from './services/notes.service';
@@ -39,8 +44,6 @@ import { RouterService } from './services/router.service';
 
 // guards imports
 import { CanActivateRouteGuard } from './can-activate-route.guard';
-import { RegisterComponent } from './register/register.component';
-import { LogoutComponent } from './logout/logout.component';
 
 // custom routes
 const appRoutes: Routes = [
@@ -75,6 +78,11 @@ const appRoutes: Routes = [
         outlet : 'noteEditOutlet'
       },
       {
+        path : 'note/:noteId/group',
+        component : GroupNoteOpenerComponent,
+        outlet : 'noteGroupOutlet'
+      },
+      {
         path : '',
         redirectTo : 'view/noteview',
         pathMatch : 'full'
@@ -101,7 +109,9 @@ const appRoutes: Routes = [
     NoteTakerComponent,
     NoteViewComponent,
     RegisterComponent,
-    LogoutComponent
+    LogoutComponent,
+    GroupNoteOpenerComponent,
+    GroupNoteViewComponent
   ],
   imports: [
     BrowserModule,
@@ -121,6 +131,7 @@ const appRoutes: Routes = [
     MatSelectModule,
     MatDialogModule,
     MatSidenavModule,
+    MatTooltipModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [
@@ -130,7 +141,7 @@ const appRoutes: Routes = [
     CanActivateRouteGuard
   ],
   bootstrap: [ AppComponent ],
-  entryComponents: [ EditNoteViewComponent ]
+  entryComponents: [ EditNoteViewComponent, GroupNoteViewComponent ]
 })
 
 export class AppModule { }

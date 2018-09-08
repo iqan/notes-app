@@ -75,16 +75,22 @@ export class NotesService {
     );
   }
 
-  showAllNotes() {
+  showAllNotes(): void {
     this.notesSubject.next(this.notes);
   }
 
-  showNotesInGroup(group) {
-    this.notesSubject.next(this.notes.filter(note => note.group === group));
+  showNotesInGroup(groupName): void {
+    this.notesSubject.next(this.notes.filter(note => note.groupName === groupName));
   }
 
-  showFavourites() {
+  showFavourites(): void {
     this.notesSubject.next(this.notes.filter(note => note.isFavourite));
+  }
+
+  markNoteAsFavourite(noteId): void {
+    const note = this.getNoteById(noteId);
+    note.isFavourite = true;
+    this.editNote(note).subscribe( data => {}, err => {});
   }
 
   private addNoteToArray(note: Note) {

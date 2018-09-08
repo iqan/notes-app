@@ -20,7 +20,7 @@ export class DashboardComponent implements OnDestroy {
     this.mobileQuery.addListener(this._mobileQueryListener);
     this.notesService.fetchNotesFromServer();
     this.notesService.getNotes().subscribe(notes => {
-      this.groups = notes.map(n => n.group)
+      this.groups = notes.map(n => n.groupName)
         .filter((value, index, self) => self.indexOf(value) === index && value !== undefined);
     });
   }

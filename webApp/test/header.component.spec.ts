@@ -158,9 +158,9 @@ describe('HeaderComponent', () => {
     component.isAuthenticated = true;
     fixture.detectChanges();
     debugElement = fixture.debugElement.query(By.css('#btnLogout'));
-    if(debugElement) {
-      const element = debugElement.nativeElement;
-      expect(element.textContent).toBe('Logout', 'when user is authenticated, Logout button should be visible');
+    if (debugElement) {
+      const nElement = debugElement.nativeElement;
+      expect(nElement.textContent).toBe('Logout', 'when user is authenticated, Logout button should be visible');
     } else {
       expect(false).toBe(true, `should have an element with id 'btnLogout' in header.componenet.html`);
     }
@@ -170,15 +170,14 @@ describe('HeaderComponent', () => {
     component.isAuthenticated = false;
     fixture.detectChanges();
     debugElement = fixture.debugElement.query(By.css('#btnLogin'));
-    if(debugElement) {
-      const element = debugElement.nativeElement;
-      expect(element.textContent).toBe('Login', 'when user is authenticated, Login button should be visible');
+    if (debugElement) {
+      const nElement = debugElement.nativeElement;
+      expect(nElement.textContent).toBe('Login', 'when user is authenticated, Login button should be visible');
     } else {
       expect(false).toBe(true, `should have an element with id 'btnLogin' in header.componenet.html`);
     }
   }));
 
-  
   it('should handle navigation to login view', fakeAsync(() => {
     component.isAuthenticated = false;
     fixture.detectChanges();
@@ -195,7 +194,6 @@ describe('HeaderComponent', () => {
     }
   }));
 
-  
   it('should handle navigation to logout view', fakeAsync(() => {
     component.isAuthenticated = true;
     fixture.detectChanges();
