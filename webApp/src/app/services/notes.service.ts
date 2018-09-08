@@ -35,9 +35,14 @@ export class NotesService {
 
   addNote(note: Note): Observable<Note> {
     const headers = this.getAuthorizationHeader();
-    this.notes.push(note);
-    this.notesSubject.next(this.notes);
-    return this.httpClient.post<Note>(`${this.baseUrl}`, note, { headers });
+    return this.httpClient.post<Note>(`${this.baseUrl}`, note, { headers })
+      .pipe(tap(
+        data => {
+          this.notes.push(data);
+          this.notesSubject.next(this.notes);
+        },
+        error => { }
+      ));
   }
 
   editNote(note: Note): Observable<Note> {
