@@ -76,6 +76,36 @@ const deleteNote = (res, noteId) => {
     });
 }
 
+const deleteMultipleNote = (res, noteIds) => {
+  notesDao.deleteNotes(noteIds)
+    .then((result) => {
+      res.status(200).json(result);
+    })
+    .catch((error) => {
+      res.status(error.status).json(error);
+    });
+}
+
+const addToFavourites = (res, noteIds) => {
+  notesDao.addToFavourites(noteIds)
+    .then((result) => {
+      res.status(200).json(result);
+    })
+    .catch((error) => {
+      res.status(error.status).json(error);
+    });
+}
+
+const addToGroup = (res, groupName, noteIds) => {
+  notesDao.addToGroup(groupName, noteIds)
+    .then((result) => {
+      res.status(200).json(result);
+    })
+    .catch((error) => {
+      res.status(error.status).json(error);
+    });
+}
+
 module.exports = {
   getNotesByUserId,
   updateNote,
@@ -83,5 +113,8 @@ module.exports = {
   getNotesAsStream,
   uploadNotes,
   shareNotes,
-  deleteNote
+  deleteNote,
+  deleteMultipleNote,
+  addToFavourites,
+  addToGroup
 }

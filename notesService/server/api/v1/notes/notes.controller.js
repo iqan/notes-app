@@ -39,6 +39,22 @@ const deleteNote = (req, res) => {
   notesService.deleteNote(res, noteId);
 }
 
+const deleteMultipleNotes = (req, res) => {
+  const noteIds = req.body;
+  notesService.deleteMultipleNote(res, noteIds);
+}
+
+const addToFavourites = (req, res) => {
+  const noteIds = req.body;
+  notesService.addToFavourites(res, noteIds);
+}
+
+const addToGroup = (req, res) => {
+  const noteIds = req.body;
+  const groupName = req.params.groupName;
+  notesService.addToGroup(res, groupName, noteIds);
+}
+
 module.exports = {
   getNotes,
   updateNote,
@@ -46,5 +62,8 @@ module.exports = {
   getNotesAsStream,
   uploadNotes,
   shareNotes,
-  deleteNote
+  deleteNote,
+  deleteMultipleNotes,
+  addToFavourites,
+  addToGroup
 }

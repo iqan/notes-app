@@ -36,7 +36,15 @@ let noteSchema = new mongoose.Schema({
     default: Date.now(),
     required: true
   },
-  collaborators: []
+  collaborators: [],
+  isFavourite: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+  groupName: {
+    type: String
+  }
 });
 
 noteSchema.methods.findByUserId = function (callback) {
@@ -68,6 +76,8 @@ noteSchema.methods.findAndUpdateNote = function (callback) {
         title: this.title,
         text: this.text,
         state: this.state,
+        isFavourite: this.isFavourite,
+        groupName: this.groupName,
         modifiedOn: Date.now()
       }
     },

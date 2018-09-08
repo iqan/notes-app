@@ -340,4 +340,143 @@ describe('Delete note scenarios', function (){
         });
       });
   });
+
+  it('Should handle request to delete multiple notes', function(done) {
+    const note1 = config.notes.note1;
+    const note = new modules.noteModel({
+      id: uuidv4(),
+      title: note1.title,
+      text: note1.text,
+      userId: note1.userId
+    });
+    note.save((err, savedNote) => {
+      if(err) return done(err);
+      request(app)
+        .delete(`/api/v1/notes/`)
+        .send([ savedNote ])
+        .set('Authorization', 'Bearer ' + user1Token)
+        .expect(200)
+        .end((error, response) => {
+          if(error) return done(error);
+          const body = response.body;
+          body.should.not.equal(undefined);
+          body.should.not.equal(null);
+          body.message.should.equal('notes deleted', 'response should return message notes deleted');
+          done();
+        });
+      });
+  });
+});
+
+describe('Mark note as favorite scenarios', function (){
+  it('Should handle request to mark note as favorite', function(done) {
+    const note1 = config.notes.note1;
+    const note = new modules.noteModel({
+      id: uuidv4(),
+      title: note1.title,
+      text: note1.text,
+      userId: note1.userId
+    });
+    note.save((err, savedNote) => {
+      if(err) return done(err);
+      const noteId = savedNote.id;
+      savedNote.isFavourite = true;
+      request(app)
+        .put(`/api/v1/notes/${noteId}`)
+        .set('Authorization', 'Bearer ' + user1Token)
+        .expect(200)
+        .send(savedNote)
+        .end((error, response) => {
+          if(error) return done(error);
+          const note = response.body;
+          note.isFavourite.should.equal(true, 'response should return note with updated favourite field');
+          done();
+        });
+    });
+  });
+
+  it('Should handle request to mark multiple notes as favorite', function(done) {
+    const note1 = config.notes.note1;
+    const note = new modules.noteModel({
+      id: uuidv4(),
+      title: note1.title,
+      text: note1.text,
+      userId: note1.userId
+    });
+    note.save((err, savedNote) => {
+      if(err) return done(err);
+      const noteId = savedNote.id;
+      savedNote.isFavourite = true;
+      request(app)
+        .post(`/api/v1/notes/favourites`)
+        .set('Authorization', 'Bearer ' + user1Token)
+        .expect(200)
+        .send([ noteId ])
+        .end((error, response) => {
+          if(error) return done(error);
+          const body = response.body;
+          body.should.not.equal(undefined);
+          body.should.not.equal(null);
+          body.message.should.equal('notes added to favourites', 'response should return message notes added to favourite');
+          done();
+        });
+    });
+  });
+});
+
+describe('Add a note in group scenarios', function (){
+  it('Should handle request to add a note in group', function(done) {
+    const note1 = config.notes.note1;
+    const groupName = 'test1';
+    const note = new modules.noteModel({
+      id: uuidv4(),
+      title: note1.title,
+      text: note1.text,
+      userId: note1.userId
+    });
+    note.save((err, savedNote) => {
+      if(err) return done(err);
+      const noteId = savedNote.id;
+      savedNote.groupName = groupName;
+      request(app)
+        .put(`/api/v1/notes/${noteId}`)
+        .set('Authorization', 'Bearer ' + user1Token)
+        .expect(200)
+        .send(savedNote)
+        .end((error, response) => {
+          if(error) return done(error);
+          const note = response.body;
+          note.groupName.should.equal(groupName, 'response should return note with updated groupName field');
+          done();
+        });
+    });
+  });
+
+  it('Should handle request to add notes in group', function(done) {
+    const note1 = config.notes.note1;
+    const note = new modules.noteModel({
+      id: uuidv4(),
+      title: note1.title,
+      text: note1.text,
+      userId: note1.userId
+    });
+    const groupName = 'test1';
+    note.save((err, savedNote) => {
+      if(err) return done(err);
+      const noteId = savedNote.id;
+      request(app)
+        .post(`/api/v1/notes/group/${groupName}`)
+        .set('Authorization', 'Bearer ' + user1Token)
+        .expect(200)
+        .send([ noteId ])
+        .end((error, response) => {
+          if(error) return done(error);
+          const body = response.body;
+          body.should.not.equal(undefined);
+          body.should.not.equal(null);
+          body.message.should.equal('notes added to group: ' + groupName, 'response should return message notes added to group');
+          done();
+        });
+    });
+  });
 });

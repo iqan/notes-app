@@ -61,7 +61,9 @@ const updateNote = (noteId, note) =>{
         title: note.title,
         text: note.text,
         state: note.state,
-        id: noteId
+        id: noteId,
+        isFavourite: note.isFavourite,
+        groupName: note.groupName
       });
 
       log.info('updating note in database');
@@ -130,13 +132,13 @@ const addCollaborator = (collaborator, notes) => {
 
       noteModel.update(criteria, { $push: { collaborators: collaborator } }, { multi: true }, (err, result) => {
         if(err) throw err;
-        log.debug('notes updated');
+        log.debug('notes updated and added collaborator');
         log.info(result);
         resolve({ message: 'notes updated', updateResult: result });
       });
     } catch (err) {
       log.error(err);
-      reject({ message: 'Failed to upload notes due to unexpected error', status: 500 });
+      reject({ message: 'Failed to add collaborator notes due to unexpected error', status: 500 });
     }
   });
 }
@@ -156,6 +158,65 @@ const deleteNote = (noteId) => {
   });
 }
 
+const deleteNotes = (noteIds) => {
+  return new Promise((resolve, reject) => {
+    try {
+      noteModel.remove({ id: { $in: noteIds } }, (err) => {
+        if(err) throw err;
+        log.debug('notes deleted');
+        resolve({ message: 'notes deleted', status: 200 });
+      });
+    } catch (err) {
+      log.error(err);
+      reject({ message: 'Failed to delete notes due to unexpected error', status: 500 });
+    }
+  });
+}
+
+const addToFavourites = (noteIds) => {
+  return new Promise((resolve, reject) => {
+    try {
+      log.info('adding notes to favourites');
+
+      var criteria = {
+        id:{ $in: noteIds }
+      };
+
+      noteModel.update(criteria, { isFavourite: true }, { multi: true }, (err, result) => {
+        if(err) throw err;
+        log.debug('notes updated and added to favourites');
+        log.info(result);
+        resolve({ message: 'notes added to favourites', updateResult: result });
+      });
+    } catch (err) {
+      log.error(err);
+      reject({ message: 'Failed to add notes to favourites due to unexpected error', status: 500 });
+    }
+  });
+}
+
+const addToGroup = (groupName, noteIds) => {
+  return new Promise((resolve, reject) => {
+    try {
+      log.info('adding notes to group: ' + groupName);
+
+      var criteria = {
+        id:{ $in: noteIds }
+      };
+
+      noteModel.update(criteria, { groupName: groupName }, { multi: true }, (err, result) => {
+        if(err) throw err;
+        log.debug('notes updated and added to group: ' + groupName);
+        log.info(result);
+        resolve({ message: 'notes added to group: ' + groupName, updateResult: result });
+      });
+    } catch (err) {
+      log.error(err);
+      reject({ message: 'Failed to add notes to favourites due to unexpected error', status: 500 });
+    }
+  });
+}
+
 module.exports = {
   createNote,
   getAllNotes,
@@ -163,5 +224,8 @@ module.exports = {
   readNotesAsStream,
   bulkInsert,
   addCollaborator,
-  deleteNote
+  deleteNote,
+  deleteNotes,
+  addToFavourites,
+  addToGroup
 }
