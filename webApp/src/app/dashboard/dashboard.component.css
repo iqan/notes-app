@@ -1,0 +1,11 @@
+.sidemenu {
+  min-width: 40vh;
+}
+
+.main-content {
+  min-height: 90vh;
+}
+
+.ul-style {
+  list-style: none;
+}

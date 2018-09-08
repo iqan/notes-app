@@ -16,7 +16,8 @@ import {
   MatIconModule,
   MatOptionModule,
   MatSelectModule,
-  MatDialogModule
+  MatDialogModule,
+  MatSidenavModule
 } from '@angular/material';
 
 // components inports
@@ -119,6 +120,7 @@ const appRoutes: Routes = [
     MatOptionModule,
     MatSelectModule,
     MatDialogModule,
+    MatSidenavModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [

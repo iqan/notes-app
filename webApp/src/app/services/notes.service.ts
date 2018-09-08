@@ -75,6 +75,18 @@ export class NotesService {
     );
   }
 
+  showAllNotes() {
+    this.notesSubject.next(this.notes);
+  }
+
+  showNotesInGroup(group) {
+    this.notesSubject.next(this.notes.filter(note => note.group === group));
+  }
+
+  showFavourites() {
+    this.notesSubject.next(this.notes.filter(note => note.isFavourite));
+  }
+
   private addNoteToArray(note: Note) {
     const noteToEdit = this.notes.find(n => n.id === note.id);
     Object.assign(noteToEdit, note);
