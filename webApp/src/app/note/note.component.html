@@ -4,9 +4,11 @@
     <mat-card-content>{{ note.text }}</mat-card-content>
   </div>
   <div *ngIf="showActions">
-    <hr>
-    <button mat-button (click)="deleteNote(note.id)" matTooltip="Delete note"><i class="material-icons">delete</i></button>
-    <button mat-button (click)="markAsFavourite(note.id)" matTooltip="Mark note as favourite"><i class="material-icons">favorite</i></button>
-    <button mat-button (click)="addToGroup(note.id)" matTooltip="Add note to a group"><i class="material-icons">label</i></button>
+    <br>
+    <button mat-mini-fab color="warn" (click)="deleteNote(note.id)" matTooltip="Delete note"><i class="material-icons">delete</i></button>
+    &nbsp;&nbsp;
+    <button mat-mini-fab (click)="markAsFavourite(note.id)" matTooltip="Mark note as favourite"><i class="material-icons">favorite</i></button>
+    &nbsp;&nbsp;
+    <button mat-mini-fab color="link" (click)="addToGroup(note.id)" matTooltip="Add note to a group"><i class="material-icons">label</i></button>
   </div>
 </mat-card>

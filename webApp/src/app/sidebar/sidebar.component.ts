@@ -8,12 +8,16 @@ import { NotesService } from '../services/notes.service';
 })
 export class SidebarComponent implements OnInit {
   groups = Array<string>();
+  highligted: string;
 
   constructor(private notesService: NotesService) {
     this.notesService.getNotes().subscribe(notes => {
       this.groups = notes.map(n => n.groupName)
-        .filter((value, index, self) => self.indexOf(value) === index && value !== undefined);
+        .filter((value, index, self) => {
+          return self.indexOf(value) === index && value;
+        });
     });
+    this.highligted = 'all';
   }
 
   ngOnInit() {
@@ -21,13 +25,16 @@ export class SidebarComponent implements OnInit {
 
   showAllNotes() {
     this.notesService.showAllNotes();
+    this.highligted = 'all';
   }
 
   showNotesInGroup(group) {
     this.notesService.showNotesInGroup(group);
+    this.highligted = group;
   }
 
   showFavourites() {
     this.notesService.showFavourites();
+    this.highligted = 'fav';
   }
 }
