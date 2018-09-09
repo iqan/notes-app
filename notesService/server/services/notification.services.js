@@ -1,4 +1,4 @@
-const request = request('sync-request');
+const request = require('sync-request');
 const log = require('../logging');
 const appConfig = require('../config').appConfig;
 
