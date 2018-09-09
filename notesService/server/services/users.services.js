@@ -3,7 +3,7 @@ const appConfig = require('../config').appConfig;
 const request = require('sync-request');
 
 const getUserByUserName = (userName) => {
-  if(appConfig.enableStub) {
+  if(appConfig.enableStub === 'yes') {
     log.debug(`getting userId for user: '${userName}' from Stub`);
     return { userId: 'userId for ' + userName, userName: userName }; 
   } else {

@@ -29,7 +29,8 @@ services:
       - na_user_profile
     environment:
       - USER_PROFILE_URL=http://na_user_profile:3001/
-      - NOTES_URL=http://na_notes_service:3002/
+      - NOTES_URL=http://na_notes_service:3002/,
+      - NOTIFICATIONS_API_URL=http://na_notification_service:3003/
   na_notes_service:
     image: "iqan/na-notes-service:1.0.0"
     build: ./notesService
@@ -41,11 +42,26 @@ services:
     environment:
      - MONGO_URL=mongodb://na_db:27017/notes-app
      - USER_PROFILE_URL=http://na_user_profile:3001/
-     - ENABLE_STUB=false
+     - NOTIFICATIONS_API_URL=http://na_notification_service:3003/
+     - ENABLE_STUB=no
     restart: on-failure
     depends_on:
       - na_db
       - na_user_profile
+  na_notification_service:
+    image: "iqan/na-notification-service:1.0.0"
+    build: ./notificationService
+    container_name: na_notification_service
+    ports:
+     - "3003:3003"
+    networks:
+     - na_network
+    environment:
+     - MONGO_URL=mongodb://na_db:27017/notes-app
+     - SLEEP_DURATION=5000
+    restart: on-failure
+    depends_on:
+      - na_db
   na_user_profile:
     image: "iqan/na-user-profile:1.0.0"
     build: ./userProfileService

@@ -4,7 +4,7 @@ const appConfig = require('../config').appConfig;
 
 const notifyUser = (userName, notes) => {
   log.debug('notifying user for notes share. Data: ' + JSON.stringify(notes));
-  if(appConfig.enableStub) {
+  if(appConfig.enableStub === 'yes') {
     log.info('notifying user' + userName + ' for notes share via stub');
   } else {
     log.info('notifying user' + userName + ' for notes share via API');
