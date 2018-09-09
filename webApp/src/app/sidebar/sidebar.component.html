@@ -1,0 +1,22 @@
+<ul class="ul-style">
+  <li>
+    <button mat-button (click)="showAllNotes()"><i class="material-icons">subject</i> Notes</button>
+  </li>
+  <hr>
+  <p>Groups</p>
+  <li *ngIf="groups.length === 0">
+    <p>No Groups Created yet</p>
+  </li>
+  <li *ngFor="let group of groups">
+    <button mat-button (click)="showNotesInGroup(group)"><i class="material-icons">label</i> {{ group }}</button>
+  </li>
+  <hr>
+  <li>
+    <button mat-button (click)="showFavourites()"><i class="material-icons">favorite</i> Favourites</button>
+  </li>
+  <hr>
+  <li>
+    <button mat-button><i class="material-icons">access_alarms</i> Reminders</button>
+  </li>
+  <hr>
+</ul>

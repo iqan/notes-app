@@ -36,6 +36,7 @@ import { RegisterComponent } from './register/register.component';
 import { LogoutComponent } from './logout/logout.component';
 import { GroupNoteOpenerComponent } from './group-note-opener/group-note-opener.component';
 import { GroupNoteViewComponent } from './group-note-view/group-note-view.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 // services imports
 import { NotesService } from './services/notes.service';
@@ -111,7 +112,8 @@ const appRoutes: Routes = [
     RegisterComponent,
     LogoutComponent,
     GroupNoteOpenerComponent,
-    GroupNoteViewComponent
+    GroupNoteViewComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,
