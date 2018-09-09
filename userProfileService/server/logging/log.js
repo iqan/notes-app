@@ -1,7 +1,10 @@
 const log4js = require('log4js');
-const logger = log4js.getLogger();
-const logConfig = require('../config').logConfig;
 
-logger.level = logConfig.level;
+log4js.configure({
+  appenders: { logfile: { type: 'file', filename: 'app.log' }, console: { type: 'console' } },
+  categories: { default: { appenders: ['logfile', 'console'], level: 'debug' } }
+});
+
+const logger = log4js.getLogger('default');
 
 module.exports = logger;

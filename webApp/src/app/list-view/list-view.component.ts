@@ -26,6 +26,7 @@ export class ListViewComponent implements OnInit {
   ngOnInit() {
     this.notesService.getNotes()
       .subscribe(notes => {
+        this.clearNotes();
         notes.map(note => {
           if (note.state === 'started') {
             this.startedNotes.push(note);

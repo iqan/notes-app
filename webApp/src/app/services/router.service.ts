@@ -35,6 +35,18 @@ export class RouterService {
     ]);
   }
 
+  routeToAddToGroupView(noteId) {
+    this.router.navigate([
+      'dashboard',
+      {
+        outlets :
+        {
+          noteGroupOutlet : [ 'note', noteId, 'group' ]
+        }
+      }
+    ]);
+  }
+
   routeBack() {
     this.location.back();
   }

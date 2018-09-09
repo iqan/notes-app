@@ -1,8 +1,11 @@
 import { async, ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
 import { RouterService } from '../src/app/services/router.service';
 import { NoteComponent } from '../src/app/note/note.component';
+import { NotesService } from '../src/app/services/notes.service';
+import { AuthenticationService } from '../src/app/services/authentication.service';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Location } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -47,15 +50,16 @@ import {
   LogoutDummyComponent
 } from './routes.test';
 
-
 const testConfig = {
   getNotes: {
     positive: {
       id: 'qwe-123',
       title: 'Read Angular 5 blog again',
       text: 'Shall do at 7 pm',
-      state: 'not-started'
-      },
+      state: 'not-started',
+      isFavourite: false,
+      groupName: null
+    },
     negative: [],
     editNotePath: '/dashboard/(noteEditOutlet:note/qwe-123/edit)'
   }
@@ -115,9 +119,10 @@ describe('NoteComponent', () => {
       MatTooltipModule,
       MatPaginatorModule,
       MatSortModule,
-      MatTableModule
+      MatTableModule,
+      HttpClientModule
       ],
-      providers: [ RouterService]
+      providers: [ RouterService, NotesService, AuthenticationService ]
     })
     .compileComponents();
   }));
@@ -148,7 +153,7 @@ describe('NoteComponent', () => {
   });
 
   it('should handle click event of card and navigate to edit note route', fakeAsync(() => {
-    debugElement = fixture.debugElement.query(By.css('.mat-card'));
+    debugElement = fixture.debugElement.query(By.css('.mat-card-title'));
     if (debugElement) {
       element = debugElement.nativeElement;
       element.click();
