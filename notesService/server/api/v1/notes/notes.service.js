@@ -55,7 +55,9 @@ const uploadNotes = (res, userId, notes) => {
 
 const shareNotes = (res, collaborator, notes) => {
   const user = usersService.getUserByUserName(collaborator.userName);
-  collaborator.userId = (user !== null) ? user.userId : null;
+  if (user) {
+    collaborator.userId = user.userId;
+  }
   notesDao.addCollaborator(collaborator, notes)
     .then((result) => {
       notificationService.notifyUser(notes);  

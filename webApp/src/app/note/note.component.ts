@@ -30,4 +30,8 @@ export class NoteComponent {
   addToGroup(noteId) {
     this.routerService.routeToAddToGroupView(this.note.id);
   }
+
+  shareNote(noteId) {
+    this.routerService.routeToShareNoteView(this.note.id);
+  }
 }

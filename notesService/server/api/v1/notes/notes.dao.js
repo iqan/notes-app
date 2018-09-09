@@ -124,7 +124,7 @@ const bulkInsert = (userId, notes) => {
 const addCollaborator = (collaborator, notes) => {
   return new Promise((resolve, reject) => {
     try {
-      log.info('adding collaborators for notes');
+      log.info('adding collaborators for notes: ', JSON.stringify(collaborator));
 
       var criteria = {
         id:{ $in: notes.map(n => n.id) }

@@ -5,6 +5,7 @@ import { AuthenticationService } from './authentication.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
+import { access } from 'fs';
 
 @Injectable()
 export class NotesService {
@@ -106,6 +107,12 @@ export class NotesService {
         },
         error => { }
       );
+  }
+
+  shareNotes(userName: string, accessType: string, notes: Array<Note>): Observable<string> {
+    const headers = this.getAuthorizationHeader();
+    const content = { collaborator: { userName: userName, type: accessType }, notes: notes };
+    return this.httpClient.post<string>(`${this.baseUrl}/share`, content, { headers });
   }
 
   private addNoteToArray(note: Note) {
