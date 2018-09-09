@@ -2,16 +2,16 @@
 	<div class="keep-c-list-container">
 		<label>Not-Started</label>
 
-		<app-note [note]='note' *ngFor="let note of notStartedNotes">{{ note }}</app-note>
+		<app-note [note]='note' *ngFor="let note of notStartedNotes | filterNotesPipe">{{ note }}</app-note>
 	</div>
 	<div class="keep-c-list-container">
 		<label>Started</label>
-		
-		<app-note [note]='note' *ngFor="let note of startedNotes">{{ note }}</app-note>
+
+		<app-note [note]='note' *ngFor="let note of startedNotes | filterNotesPipe">{{ note }}</app-note>
 	</div>
 	<div class="keep-c-list-container">
 		<label>Completed</label>
 
-		<app-note [note]='note' *ngFor="let note of completedNotes">{{ note }}</app-note>
+		<app-note [note]='note' *ngFor="let note of completedNotes | filterNotesPipe">{{ note }}</app-note>
 	</div>
 </div>

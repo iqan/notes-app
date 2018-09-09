@@ -47,6 +47,18 @@ export class RouterService {
     ]);
   }
 
+  routeToShareNoteView(noteId) {
+    this.router.navigate([
+      'dashboard',
+      {
+        outlets :
+        {
+          noteShareOutlet : [ 'note', noteId, 'share' ]
+        }
+      }
+    ]);
+  }
+
   routeBack() {
     this.location.back();
   }

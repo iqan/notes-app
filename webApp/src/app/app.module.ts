@@ -37,6 +37,8 @@ import { LogoutComponent } from './logout/logout.component';
 import { GroupNoteOpenerComponent } from './group-note-opener/group-note-opener.component';
 import { GroupNoteViewComponent } from './group-note-view/group-note-view.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { NoteShareOpenerComponent } from './note-share-opener/note-share-opener.component';
+import { NoteShareViewComponent } from './note-share-view/note-share-view.component';
 
 // services imports
 import { NotesService } from './services/notes.service';
@@ -45,6 +47,7 @@ import { RouterService } from './services/router.service';
 
 // guards imports
 import { CanActivateRouteGuard } from './can-activate-route.guard';
+import { FilterNotesPipePipe } from './filter-notes-pipe.pipe';
 
 // custom routes
 const appRoutes: Routes = [
@@ -84,6 +87,11 @@ const appRoutes: Routes = [
         outlet : 'noteGroupOutlet'
       },
       {
+        path : 'note/:noteId/share',
+        component : NoteShareOpenerComponent,
+        outlet : 'noteShareOutlet'
+      },
+      {
         path : '',
         redirectTo : 'view/noteview',
         pathMatch : 'full'
@@ -113,7 +121,10 @@ const appRoutes: Routes = [
     LogoutComponent,
     GroupNoteOpenerComponent,
     GroupNoteViewComponent,
-    SidebarComponent
+    SidebarComponent,
+    NoteShareOpenerComponent,
+    NoteShareViewComponent,
+    FilterNotesPipePipe
   ],
   imports: [
     BrowserModule,
@@ -143,7 +154,7 @@ const appRoutes: Routes = [
     CanActivateRouteGuard
   ],
   bootstrap: [ AppComponent ],
-  entryComponents: [ EditNoteViewComponent, GroupNoteViewComponent ]
+  entryComponents: [ EditNoteViewComponent, GroupNoteViewComponent, NoteShareViewComponent ]
 })
 
 export class AppModule { }

@@ -11,11 +11,13 @@ export class NotesService {
   baseUrl = environment.apiGatewayUrl + 'api/v1/notes';
   notes: Array<Note>;
   notesSubject: BehaviorSubject<Array<Note>>;
+  filterSubject: BehaviorSubject<string>;
 
   constructor(private httpClient: HttpClient,
               private authenticationService: AuthenticationService) {
                 this.notes = [];
                 this.notesSubject = new BehaviorSubject(this.notes);
+                this.filterSubject = new BehaviorSubject('all');
               }
 
   fetchNotesFromServer(): void {
@@ -76,21 +78,46 @@ export class NotesService {
   }
 
   showAllNotes(): void {
-    this.notesSubject.next(this.notes);
+    this.filterSubject.next('all');
   }
 
   showNotesInGroup(groupName): void {
-    this.notesSubject.next(this.notes.filter(note => note.groupName === groupName));
+    this.filterSubject.next(groupName);
   }
 
   showFavourites(): void {
-    this.notesSubject.next(this.notes.filter(note => note.isFavourite));
+    this.filterSubject.next('isFavourite');
   }
 
   markNoteAsFavourite(noteId): void {
     const note = this.getNoteById(noteId);
     note.isFavourite = true;
     this.editNote(note).subscribe( data => {}, err => {});
+  }
+
+  uploadFile(content): void {
+    const headers = this.getAuthorizationHeader();
+    headers.append('Content-Type', 'multipart/form-data');
+    this.httpClient.post<Array<Note>>(`${this.baseUrl}/stream`, content, { headers })
+      .subscribe(
+        data => {
+          data.forEach(note => {
+            this.notes.push(note);
+            this.notesSubject.next(this.notes);
+          });
+        },
+        error => { }
+      );
+  }
+
+  shareNotes(userName: string, accessType: string, notes: Array<Note>): Observable<string> {
+    const headers = this.getAuthorizationHeader();
+    const content = { collaborator: { userName: userName, type: accessType }, notes: notes };
+    return this.httpClient.post<string>(`${this.baseUrl}/share`, content, { headers });
+  }
+
+  getFilterSubject() {
+    return this.filterSubject;
   }
 
   private addNoteToArray(note: Note) {

@@ -1,0 +1,23 @@
+<h3>Share a note:</h3>
+<!-- Label to display any error messages -->
+<label class="error-message">{{ errMessage }}</label>
+
+<div class="share-notes-container">
+  <div class="note-share-form">
+    <mat-label>{{ note.title }}</mat-label>
+    <hr>
+    <mat-form-field>
+      <input [(ngModel)]="collaborator" name="collaborator" matInput placeholder="User Email" type="text">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select name="editStatus" placeholder="Select Access Type" [(ngModel)]="accessType">
+        <mat-option *ngFor="let acType of acTypes" [value]="acType">
+          {{ acType }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="btn-share-note">
+      <button mat-raised-button color="primary" (click)="onSave()">Save</button>
+    </div>
+  </div>
+</div>
