@@ -52,6 +52,11 @@ Headers: ```Authorization Bearer <jwt-token>```
 DELETE http://localhost:3000/api/v1/notifications/reminders/:reminderId
 Headers: ```Authorization Bearer <jwt-token>```
 
+### Worker:
+
+- Worker will poll mongo database and see if there are any notifications to send
+- If found any, it will use socket to send notification or reminder
+
 ### How to for Development
 
 1. Install dependencies

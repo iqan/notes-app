@@ -2,7 +2,7 @@
 
 const appConfig = {
   port: process.env.PORT || 3003,
-  sleepDuration: process.env.SLEEP_DURATION || 1000
+  sleepDuration: process.env.SLEEP_DURATION || 5000
 };
 
 const dbConfig = {
