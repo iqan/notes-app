@@ -60,7 +60,7 @@ const shareNotes = (res, collaborator, notes) => {
   }
   notesDao.addCollaborator(collaborator, notes)
     .then((result) => {
-      notificationService.notifyUser(notes);  
+      notificationService.notifyUser(collaborator.userName, notes);  
       res.status(200).json(result);
     })
     .catch((error) => {

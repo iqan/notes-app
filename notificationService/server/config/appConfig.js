@@ -1,10 +1,8 @@
 // write your application configration here
 
 const appConfig = {
-  port: process.env.PORT || 3002,
-  enableStub: process.env.ENABLE_STUB || true,
-  userProfileUrl: process.env.USER_PROFILE_URL || 'http://localhost:3001/',
-  notificationsApiUrl: process.env.NOTIFICATIONS_API_URL || 'http://localhost:3003/'
+  port: process.env.PORT || 3003,
+  sleepDuration: process.env.SLEEP_DURATION || 1000
 };
 
 const dbConfig = {
