@@ -93,6 +93,21 @@ export class NotesService {
     this.editNote(note).subscribe( data => {}, err => {});
   }
 
+  uploadFile(content): void {
+    const headers = this.getAuthorizationHeader();
+    headers.append('Content-Type', 'multipart/form-data');
+    this.httpClient.post<Array<Note>>(`${this.baseUrl}/stream`, content, { headers })
+      .subscribe(
+        data => {
+          data.forEach(note => {
+            this.notes.push(note);
+            this.notesSubject.next(this.notes);
+          });
+        },
+        error => { }
+      );
+  }
+
   private addNoteToArray(note: Note) {
     const noteToEdit = this.notes.find(n => n.id === note.id);
     Object.assign(noteToEdit, note);

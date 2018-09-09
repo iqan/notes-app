@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Note } from '../note';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NotesService } from '../services/notes.service';
@@ -11,6 +11,7 @@ import { NotesService } from '../services/notes.service';
 export class NoteTakerComponent implements OnInit {
   errMessage: string;
   note: Note;
+  @ViewChild('file') file;
 
   constructor(private notesService: NotesService) { }
 
@@ -25,6 +26,20 @@ export class NoteTakerComponent implements OnInit {
         data => this.note = new Note(),
         error => this.handleErrorResponse(error)
       );
+    }
+  }
+
+  uploadNote() {
+    this.file.nativeElement.click();
+  }
+
+  onFilesAdded() {
+    const files = this.file.nativeElement.files;
+    if (files && files.length > 0) {
+      const file = files[0];
+      const formData: FormData = new FormData();
+      formData.append('notes', file, file.name);
+      this.notesService.uploadFile(formData);
     }
   }
 
