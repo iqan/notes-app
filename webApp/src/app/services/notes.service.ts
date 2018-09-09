@@ -5,18 +5,19 @@ import { AuthenticationService } from './authentication.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { access } from 'fs';
 
 @Injectable()
 export class NotesService {
   baseUrl = environment.apiGatewayUrl + 'api/v1/notes';
   notes: Array<Note>;
   notesSubject: BehaviorSubject<Array<Note>>;
+  filterSubject: BehaviorSubject<string>;
 
   constructor(private httpClient: HttpClient,
               private authenticationService: AuthenticationService) {
                 this.notes = [];
                 this.notesSubject = new BehaviorSubject(this.notes);
+                this.filterSubject = new BehaviorSubject('all');
               }
 
   fetchNotesFromServer(): void {
@@ -77,15 +78,15 @@ export class NotesService {
   }
 
   showAllNotes(): void {
-    this.notesSubject.next(this.notes);
+    this.filterSubject.next('all');
   }
 
   showNotesInGroup(groupName): void {
-    this.notesSubject.next(this.notes.filter(note => note.groupName === groupName));
+    this.filterSubject.next(groupName);
   }
 
   showFavourites(): void {
-    this.notesSubject.next(this.notes.filter(note => note.isFavourite));
+    this.filterSubject.next('isFavourite');
   }
 
   markNoteAsFavourite(noteId): void {
@@ -113,6 +114,10 @@ export class NotesService {
     const headers = this.getAuthorizationHeader();
     const content = { collaborator: { userName: userName, type: accessType }, notes: notes };
     return this.httpClient.post<string>(`${this.baseUrl}/share`, content, { headers });
+  }
+
+  getFilterSubject() {
+    return this.filterSubject;
   }
 
   private addNoteToArray(note: Note) {
