@@ -10,6 +10,7 @@ import { NotesService } from '../services/notes.service';
 export class DashboardComponent implements OnDestroy {
   groups = Array<string>();
   mobileQuery: MediaQueryList;
+  isSmallDevice: boolean;
 
   private _mobileQueryListener: () => void;
 
@@ -18,6 +19,7 @@ export class DashboardComponent implements OnDestroy {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
+    this.isSmallDevice = this.mobileQuery.matches;
     this.notesService.fetchNotesFromServer();
     this.notesService.getNotes().subscribe(notes => {
       this.groups = notes.map(n => n.groupName)

@@ -1,5 +1,5 @@
 <mat-sidenav-container>
-  <mat-sidenav class="sidemenu" mode="side" [(opened)]="!mobileQuery.matches">
+  <mat-sidenav class="sidemenu" mode="side" [(opened)]="!isSmallDevice">
     <ul class="ul-style">
       <li>
         <button mat-button (click)="showAllNotes()"><i class="material-icons">subject</i> Notes</button>
