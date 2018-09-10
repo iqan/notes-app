@@ -32,7 +32,7 @@ Run application ``` npm start ```
 
 - Notify a user: 
 POST http://localhost:3000/api/v1/notifications/
-Body: ```{ userName: "<userName>", note: { "title": <title>, "text": <text>, "state": <state> } }```
+Body: ```{ userName: "<userName>", note: { "title": <title>, "text": <text> }```
 
 - Get all reminders for a user: 
 GET http://localhost:3000/api/v1/notifications/reminders
@@ -40,12 +40,12 @@ Headers: ```Authorization Bearer <jwt-token>```
 
 - Add a reminder for a user: 
 POST http://localhost:3000/api/v1/notifications/reminders
-Body: ```{ userName: "<userName>", remindAt: "<time>", note: { "title": <title>, "text": <text>, "state": <state> } }```
+Body: ```{ userName: "<userName>", remindAt: "<time>", note: { "title": <title>, "text": <text> } }```
 Headers: ```Authorization Bearer <jwt-token>```
 
 - Update/Snooze a reminder for a user: 
 PUT http://localhost:3000/api/v1/notifications/reminders/:reminderId
-Body: ```{ userName: "<userName>", remindAt: "<time>", note: { "title": <title>, "text": <text>, "state": <state> } }```
+Body: ```{ userName: "<userName>", remindAt: "<time>", note: { "title": <title>, "text": <text> } }```
 Headers: ```Authorization Bearer <jwt-token>```
 
 - Delete/Dismiss reminder for a user: 

@@ -3,26 +3,28 @@ const log = require('../../../logging');
 
 const getNotificationsToProcess = (callback) => {
   log.info('getting notifications to process');
-  notificationsModel.find({ isReminded: false })
+  notificationsModel.find()
     .where('remindAt').lt(Date.now())
     .exec(callback);
 }
 
-const addNotification = (userName, notification) => {
+const addNotification = (userId, notification) => {
   return new Promise((resolve, reject) => {
     log.info('adding notification');
 
     try {
       const notificationToAdd = new notificationsModel({
-        userId: notification.userId,
-        userName: userName,
+        userId: userId,
+        userName: notification.userName,
         isReminded: false,
         remindAt: Date.now(),
-        note: notification.note
+        note: notification.notes[0]
       });
   
       notificationToAdd.save((err, savedNotification) => {
+        if(err) throw err;
         log.info('notification saved');
+        log.debug(JSON.stringify(savedNotification));
         resolve({ message: 'notification added', status: 201, notification: savedNotification });
       });
     } catch (error) {

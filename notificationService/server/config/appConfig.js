@@ -2,11 +2,11 @@
 
 const appConfig = {
   port: process.env.PORT || 3003,
-  sleepDuration: process.env.SLEEP_DURATION || 5000
+  sleepDuration: process.env.SLEEP_DURATION || 50000
 };
 
 const dbConfig = {
-  mongoUrl: process.env.MONGO_URL || 'mongodb://localhost:27017/keep-2'
+  mongoUrl: process.env.MONGO_URL || 'mongodb://localhost:27017/notes-app-local'
 };
 
 const logConfig = {

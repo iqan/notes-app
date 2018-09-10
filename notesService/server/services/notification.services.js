@@ -2,7 +2,7 @@ const request = require('sync-request');
 const log = require('../logging');
 const appConfig = require('../config').appConfig;
 
-const notifyUser = (userName, notes) => {
+const notifyUser = (userName, notes, token) => {
   log.debug('notifying user for notes share. Data: ' + JSON.stringify(notes));
   if(appConfig.enableStub === 'yes') {
     log.info('notifying user' + userName + ' for notes share via stub');
@@ -13,6 +13,9 @@ const notifyUser = (userName, notes) => {
       json: {
         userName: userName,
         notes: notes
+      },
+      headers: {
+        'Authorization': 'Bearer ' + token
       }
     });
     try {

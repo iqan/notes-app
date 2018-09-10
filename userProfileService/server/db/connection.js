@@ -14,7 +14,7 @@ const getDbConnection = () => {
 }
 
 const onSuccess = () => {
-  log.info('Successfully connected to database.');
+  log.info('Successfully connected to database: ' + dbConfig.mongoUrl);
 }
 
 const onError = (error) => {

@@ -32,6 +32,7 @@ const checkAuthentication = (req, res, next) => {
         res.status(403).send('invalid token'); return;
       }
       req.userData = decoded;
+      req.token = token;
       log.info('User authenticated');
       next();
     });

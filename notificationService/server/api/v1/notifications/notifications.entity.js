@@ -14,10 +14,6 @@ let notificationsSchema = new mongoose.Schema({
     default: Date.now(),
     required: true
   },
-  isReminded: {
-    type: Boolean,
-    default: false
-  },
   note: {
     title: {
       type: String,
@@ -28,8 +24,8 @@ let notificationsSchema = new mongoose.Schema({
 
 notificationsSchema.methods.findByUserId = function (callback) {
   return this.model('notification')
-              .find({ userId: this.userId })
-              .exec(callback);
+    .find({ userId: this.userId })
+    .exec(callback);
 };
 
 notificationsSchema.methods.findAndUpdateNotification = function (callback) {

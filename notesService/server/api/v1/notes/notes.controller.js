@@ -31,7 +31,8 @@ const uploadNotes = (req, res) => {
 const shareNotes = (req, res) => {
   const notes = req.body.notes;
   const collaborator = req.body.collaborator;
-  notesService.shareNotes(res, collaborator, notes);
+  const userToken = req.token;
+  notesService.shareNotes(res, collaborator, notes, userToken);
 }
 
 const deleteNote = (req, res) => {

@@ -1,9 +1,9 @@
 const notificationsDao = require('./notifications.dao');
 
 const notifyUser = (req, res) => {
-  const userName = '';
+  const userId = req.userData.userId;
   const notification = req.body;
-  notificationsDao.addNotification(userName, notification)
+  notificationsDao.addNotification(userId, notification)
     .then(result => res.status(result.status).json(result))
     .catch(err => res.status(err.status).json(err));
 }
