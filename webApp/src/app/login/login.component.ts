@@ -4,7 +4,6 @@ import { Login } from '../login';
 import { AuthenticationService } from '../services/authentication.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { RouterService } from '../services/router.service';
-import { SocketService } from '../services/socket.service';
 
 @Component({
   selector: 'app-login',
@@ -17,8 +16,7 @@ export class LoginComponent {
     password = new FormControl('', [ Validators.required ]);
 
     constructor(private authenticationService: AuthenticationService,
-                private routerService: RouterService,
-                private socketService: SocketService) { }
+                private routerService: RouterService) { }
 
     loginSubmit() {
       this.submitMessage = '';
@@ -26,7 +24,7 @@ export class LoginComponent {
       this.authenticationService.authenticateUser(login).subscribe(
         data => {
           this.authenticationService.setBearerToken(data['token']);
-          this.socketService.register(this.username.value);
+          this.authenticationService.setUserName(this.username.value);
           this.routerService.routeToDashboard();
         },
         err => this.handleErrorResponse(err)

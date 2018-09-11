@@ -1,33 +1,32 @@
 import { Injectable } from '@angular/core';
 import * as io from 'socket.io-client';
 import { environment } from '../../environments/environment';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { AuthenticationService } from './authentication.service';
 
 @Injectable()
 export class SocketService {
   socket: any = io(environment.apiGatewayUrl);
   notificationSubject: BehaviorSubject<string>;
+  userName: string;
 
-  constructor() {
+  constructor(private authService: AuthenticationService) {
     this.socket = io(environment.apiGatewayUrl);
     this.notificationSubject = new BehaviorSubject('');
-  }
+    this.userName = this.authService.getUserName();
+    this.socket.emit('register', this.userName);
 
-  register(userName: string): void {
     this.socket.on('connect', () => {
-      console.log('Connected to the server');
       this.notificationSubject.next('Connected to the server');
-      this.socket.emit('register', userName);
     });
 
     this.socket.on('share-note', (shareInfo) => {
-      console.log('A note has been shared with you:');
-      this.notificationSubject.next('A note has been shared with you: ' + JSON.stringify(shareInfo));
+      const title = shareInfo.note.title;
+      this.notificationSubject.next('A note has been shared with you: ' + title);
       console.log(shareInfo);
     });
 
     this.socket.on('disconnect', () => {
-      console.log('disconnect for the server');
       this.notificationSubject.next('disconnected from the server');
     });
   }

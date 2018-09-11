@@ -18,7 +18,8 @@ import {
   MatSelectModule,
   MatDialogModule,
   MatSidenavModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatSnackBarModule
 } from '@angular/material';
 
 // components inports
@@ -50,6 +51,7 @@ import { FilterNotesPipePipe } from './filter-notes-pipe.pipe';
 import { NotesService } from './services/notes.service';
 import { AuthenticationService } from './services/authentication.service';
 import { RouterService } from './services/router.service';
+import { SocketService } from './services/socket.service';
 
 // guards imports
 import { CanActivateRouteGuard } from './can-activate-route.guard';
@@ -158,13 +160,15 @@ const appRoutes: Routes = [
     MatDialogModule,
     MatSidenavModule,
     MatTooltipModule,
+    MatSnackBarModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [
     RouterService,
     AuthenticationService,
     NotesService,
-    CanActivateRouteGuard
+    CanActivateRouteGuard,
+    SocketService
   ],
   bootstrap: [ AppComponent ],
   entryComponents: [ EditNoteViewComponent, GroupNoteViewComponent, NoteShareViewComponent, ReminderViewComponent ]

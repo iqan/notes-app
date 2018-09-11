@@ -34,4 +34,8 @@ export class NoteComponent {
   shareNote(noteId) {
     this.routerService.routeToShareNoteView(this.note.id);
   }
+
+  remind(noteId) {
+    this.routerService.routeToRemindNoteView(this.note.id);
+  }
 }

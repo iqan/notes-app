@@ -16,6 +16,7 @@ const onConnect = (socket) => {
 
   socket.on('register', (userName) => {
     log.debug('client is registered.');
+    sessions = sessions.filter(s => s.userName == userName);
     sessions.push({ id: socket.id, userName: userName });
   });
 };
@@ -23,10 +24,14 @@ const onConnect = (socket) => {
 // shareInfo = { userName: <userName>, note: <note>}
 const notify = (shareInfo) => {
   log.info('notifying note share');
+  log.debug('connected users: ' + JSON.stringify(sessions));
   const session = sessions.find(s => s.userName == shareInfo.userName);
   if(session) {
     const socketId = session.id;
     io.to(socketId).emit('share-note', shareInfo);
+    log.info('notified user');
+  } else {
+    log.info('user session not found');
   }
 }
 

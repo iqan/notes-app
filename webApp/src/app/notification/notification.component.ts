@@ -10,13 +10,16 @@ import { MatSnackBar } from '@angular/material';
 export class NotificationComponent implements OnInit {
   public snackBar: MatSnackBar;
 
-  constructor(private socketService: SocketService) { }
-
-  ngOnInit() {
-    this.socketService.getNotificationSubject().subscribe(
-      notification => this.snackBar.open(notification, 'Done'),
-      err => { }
-    );
+  constructor(private socketService: SocketService, private msnackBar: MatSnackBar) {
+    this.snackBar = msnackBar;
   }
 
+  ngOnInit() {
+    setTimeout(() => {
+      this.socketService.getNotificationSubject().subscribe(
+        notification => this.snackBar.open(notification, 'Done'),
+        err => { }
+      );
+    });
+  }
 }
