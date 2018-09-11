@@ -39,6 +39,12 @@ import { GroupNoteViewComponent } from './group-note-view/group-note-view.compon
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { NoteShareOpenerComponent } from './note-share-opener/note-share-opener.component';
 import { NoteShareViewComponent } from './note-share-view/note-share-view.component';
+import { NotificationComponent } from './notification/notification.component';
+import { ReminderOpenerComponent } from './reminder-opener/reminder-opener.component';
+import { ReminderViewComponent } from './reminder-view/reminder-view.component';
+
+// Pipe
+import { FilterNotesPipePipe } from './filter-notes-pipe.pipe';
 
 // services imports
 import { NotesService } from './services/notes.service';
@@ -47,8 +53,6 @@ import { RouterService } from './services/router.service';
 
 // guards imports
 import { CanActivateRouteGuard } from './can-activate-route.guard';
-import { FilterNotesPipePipe } from './filter-notes-pipe.pipe';
-import { NotificationComponent } from './notification/notification.component';
 
 // custom routes
 const appRoutes: Routes = [
@@ -96,7 +100,12 @@ const appRoutes: Routes = [
         path : '',
         redirectTo : 'view/noteview',
         pathMatch : 'full'
-      }
+      },
+      {
+        path : 'note/:noteId/remind',
+        component : ReminderOpenerComponent,
+        outlet : 'noteRemindOutlet'
+      },
     ]
   },
   {
@@ -126,7 +135,9 @@ const appRoutes: Routes = [
     NoteShareOpenerComponent,
     NoteShareViewComponent,
     FilterNotesPipePipe,
-    NotificationComponent
+    NotificationComponent,
+    ReminderOpenerComponent,
+    ReminderViewComponent
   ],
   imports: [
     BrowserModule,
@@ -156,7 +167,7 @@ const appRoutes: Routes = [
     CanActivateRouteGuard
   ],
   bootstrap: [ AppComponent ],
-  entryComponents: [ EditNoteViewComponent, GroupNoteViewComponent, NoteShareViewComponent ]
+  entryComponents: [ EditNoteViewComponent, GroupNoteViewComponent, NoteShareViewComponent, ReminderViewComponent ]
 })
 
 export class AppModule { }

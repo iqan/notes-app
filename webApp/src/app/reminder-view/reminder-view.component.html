@@ -1,0 +1,13 @@
+<h3>Remind a note:</h3>
+<!-- Label to display any error messages -->
+<label class="error-message">{{ errMessage }}</label>
+
+<div class="remind-notes-container">
+  <div class="note-remind-form">
+    <mat-label>{{ note.title }}</mat-label>
+    <hr>
+    <div class="btn-remind-note">
+      <button mat-raised-button color="primary" (click)="onSave()">Save</button>
+    </div>
+  </div>
+</div>
