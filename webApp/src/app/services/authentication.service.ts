@@ -61,6 +61,7 @@ export class AuthenticationService {
 
   logout() {
     localStorage.removeItem(this.authTokenName);
+    localStorage.removeItem('userName');
     this.isAuthenticatedSubject.next(false);
     this.isAuthenticated = false;
   }

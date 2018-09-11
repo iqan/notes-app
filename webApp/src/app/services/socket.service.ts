@@ -34,4 +34,8 @@ export class SocketService {
   getNotificationSubject(): BehaviorSubject<string> {
     return this.notificationSubject;
   }
+
+  disconnect(): void {
+    this.socket.emit('deregister', this.userName);
+  }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NotesService } from '../services/notes.service';
+import { RouterService } from '../services/router.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -10,7 +11,8 @@ export class SidebarComponent implements OnInit {
   groups = Array<string>();
   highligted: string;
 
-  constructor(private notesService: NotesService) {
+  constructor(private notesService: NotesService,
+    private routerService: RouterService) {
     this.notesService.getNotes().subscribe(notes => {
       this.groups = notes.map(n => n.groupName)
         .filter((value, index, self) => {
@@ -36,5 +38,9 @@ export class SidebarComponent implements OnInit {
   showFavourites() {
     this.notesService.showFavourites();
     this.highligted = 'fav';
+  }
+
+  showReminders() {
+    this.routerService.routeToReminderListView();
   }
 }

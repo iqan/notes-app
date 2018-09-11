@@ -1,0 +1,14 @@
+.reminders-container {
+  width: 40vw;
+  margin: 20px auto;
+}
+
+.reminders-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.btn-close-reminders {
+  display: flex;
+  justify-content: flex-end;
+}

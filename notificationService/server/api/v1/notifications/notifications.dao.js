@@ -17,7 +17,7 @@ const addNotificationWithMultipleNotes = (userId, notificationWithMultipleNotes)
           userId: userId,
           userName: notificationWithMultipleNotes.userName,
           isReminded: false,
-          remindAt: Date.now(),
+          remindAt: new Date().toISOString(),
           self: false,
           note: n
         });
@@ -45,7 +45,7 @@ const addNotification = (userId, notification) => {
         userId: userId,
         userName: notification.userName,
         isReminded: false,
-        remindAt: Date.now(),
+        remindAt: notification.remindAt,
         note: notification.note
       });
   
@@ -125,11 +125,35 @@ const deleteReminder = (notificationId) => {
   });
 };
 
+const markNotificationSent = (notificationId) => {
+  return new Promise((resolve, reject) => {
+    log.info('updating reminder');
+
+    try {
+      const notificationToAdd = new notificationsModel({
+        _id: notificationId,
+        isSent: true
+      });
+  
+      notificationToAdd.markNotificationSent((err, savedNotification) => {
+        if(err) throw err;
+        log.info('notification marked sent');
+        log.debug(JSON.stringify(savedNotification));
+        resolve({ message: 'reminder updated', status: 200, notification: savedNotification });
+      });
+    } catch (error) {
+      log.error(error);
+      reject({ message: 'Failed to update due to internal error', status: 500 });
+    }
+  });
+};
+
 module.exports = {
   getNotificationsToProcess,
   addNotification,
   addNotificationWithMultipleNotes,
   getNotificationsForSelf,
   updateReminder,
-  deleteReminder
+  deleteReminder,
+  markNotificationSent
 };
