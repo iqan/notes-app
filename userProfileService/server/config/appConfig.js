@@ -14,7 +14,7 @@ const authConfig = {
 };
 
 const logConfig = {
-  level: 'debug'
+  level: process.env.LOG_LEVEL || 'debug'
 };
 
 module.exports = {

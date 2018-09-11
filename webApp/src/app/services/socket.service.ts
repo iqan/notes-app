@@ -23,7 +23,11 @@ export class SocketService {
     this.socket.on('share-note', (shareInfo) => {
       const title = shareInfo.note.title;
       this.notificationSubject.next('A note has been shared with you: ' + title);
-      console.log(shareInfo);
+    });
+
+    this.socket.on('reminder', (shareInfo) => {
+      const title = shareInfo.note.title;
+      this.notificationSubject.next('Reminder: ' + title);
     });
 
     this.socket.on('disconnect', () => {

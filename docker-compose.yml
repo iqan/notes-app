@@ -44,6 +44,7 @@ services:
      - USER_PROFILE_URL=http://na_user_profile:3001/
      - NOTIFICATIONS_API_URL=http://na_notification_service:3003/
      - ENABLE_STUB=no
+     - LOG_LEVEL=error
     restart: on-failure
     depends_on:
       - na_db
@@ -59,6 +60,7 @@ services:
     environment:
      - MONGO_URL=mongodb://na_db:27017/notes-app
      - SLEEP_DURATION=5000
+     - LOG_LEVEL=error
     restart: on-failure
     depends_on:
       - na_db
@@ -72,6 +74,7 @@ services:
      - na_network
     environment:
      - MONGO_URL=mongodb://na_db:27017/notes-app
+     - LOG_LEVEL=error
     restart: on-failure
     depends_on:
       - na_db

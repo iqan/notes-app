@@ -38,13 +38,9 @@ export class ReminderViewComponent implements OnInit {
   }
 
   onSave() {
-    console.log('reminding for note');
-    console.log(this.date.value);
     const d = this.date.value as Date;
     d.setMinutes(this.min);
     d.setHours(this.hour);
-    console.log('updated dateTime');
-    console.log(d);
     this.reminderService.remind(d, this.note).subscribe(
       data => this.dialogRef.close(),
       error => this.handleErrorResponse(error)
