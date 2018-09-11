@@ -68,10 +68,11 @@ describe('Testing to add a reminder', function()
       .end((error, response) => {
         if(error) return done(error);
         response.body.should.not.equal(null, 'response should contain a body');
-        const addedNotification = response.body.notification;
-        addedNotification.should.not.equal(null, 'response should contain added notification');
-        addedNotification.userName.should.equal(notification1.userName, 'response should return added notification');
-        addedNotification.note.should.not.equal(null, 'added notification should contain note');
+        const addedNotifications = response.body.notifications;
+        addedNotifications.should.not.equal(null, 'response should contain added notifications');
+        addedNotifications[0].userName.should.equal(notification1.userName, 'response should return added notifications');
+        addedNotifications[0].note.should.not.equal(null, 'added notification should contain note');
+        addedNotifications[0].self.should.equal(false, 'notification should be for user 2');
         done();
       });
   });
@@ -83,18 +84,15 @@ describe('Testing to get all reminders', function()
   //  testcase
   it('Should handle a request to get all reminders of a user', function(done)
   {
-    const rem1 = config.reminders.rem1;
     request(app)
       .get('/api/v1/notifications/reminders')
       .set('Authorization', 'Bearer ' + user1Token)
       .expect(200)
       .end((error, response) => {
         if(error) return done(error);
-        response.body.should.not.equal(null, 'response should contain a body');
-        const addedReminders = response.body.reminders;
-        addedReminders.should.not.equal(null, 'response should contain added reminder');
-        addedReminders[0].userName.should.equal(rem1.userName, 'response should return added reminder');
-        addedReminders[0].note.should.not.equal(null, 'added reminder should contain note');
+        const reminders = response.body;
+        reminders.should.not.equal(null, 'response should contain a body');        
+        reminders.should.be.an('array', 'response should contain added reminder');
         done();
       });   
   });
@@ -123,7 +121,7 @@ describe('Testing to snooze a reminder', function()
         .send(updatedRem)
         .end((error, response) => {
           if(error) return done(error);
-          const reminder = response.body.reminder;
+          const reminder = response.body.notification;
           reminder.remindAt.should.equal(updatedRem.remindAt, 'response should return updated time');
           done();
         });
