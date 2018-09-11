@@ -27,6 +27,8 @@ services:
     restart: on-failure
     depends_on:
       - na_user_profile
+      - na_notes_service
+      - na_notification_service
     environment:
       - USER_PROFILE_URL=http://na_user_profile:3001/
       - NOTES_URL=http://na_notes_service:3002/,
@@ -49,6 +51,7 @@ services:
     depends_on:
       - na_db
       - na_user_profile
+      - na_notification_service
   na_notification_service:
     image: "iqan/na-notification-service:1.0.0"
     build: ./notificationService

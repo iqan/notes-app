@@ -9,6 +9,7 @@ import { ReminderService } from '../services/reminder.service';
 })
 export class ReminderListViewComponent implements OnInit {
   reminders = [];
+  errMessage: string;
 
   constructor(
     private dialogRef: MatDialogRef<ReminderListViewComponent>,
