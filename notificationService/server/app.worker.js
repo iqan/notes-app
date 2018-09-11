@@ -22,14 +22,23 @@ const registerWorker = () => {
 
 const doWork = () => {
   log.info('starting process');
-  notificationsDao.getNotificationsToProcess(notifications => {
-      if (notifications && notifications.length > 0) {
-        notifications.map(n => {
-          socket.notify(n);
-        });
-      }
+  notificationsDao.getNotificationsToProcess((err, notifications) => {
+    if(err) {
+      log.error('Error occurred while fetching notifications');
+      log.error(err);
     }
-  );
+    log.info('notifications fetched from db');
+    log.debug(JSON.stringify(notifications));
+    if (notifications && notifications.length > 0) {
+      log.info('notifications found');
+      const notificationsToProcess = notifications.filter(n => parseInt(n.remindAt) < parseInt(Date.now()));
+      log.info('notifications filtered');
+      log.debug(JSON.stringify(notificationsToProcess));
+      notificationsToProcess.map(n => {
+        socket.notify(n);
+      });
+    }
+  });
   log.info('process completed, waiting for next round ...');
 }
 

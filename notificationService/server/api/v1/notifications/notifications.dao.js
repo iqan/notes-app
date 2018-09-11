@@ -2,9 +2,8 @@ const notificationsModel = require('./notifications.entity');
 const log = require('../../../logging');
 
 const getNotificationsToProcess = (callback) => {
-  log.info('getting notifications to process');
+  log.info('getting all notifications to process');
   notificationsModel.find()
-    .where('remindAt').lt(Date.now())
     .exec(callback);
 };
 
