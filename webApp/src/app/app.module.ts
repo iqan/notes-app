@@ -48,6 +48,7 @@ import { RouterService } from './services/router.service';
 // guards imports
 import { CanActivateRouteGuard } from './can-activate-route.guard';
 import { FilterNotesPipePipe } from './filter-notes-pipe.pipe';
+import { NotificationComponent } from './notification/notification.component';
 
 // custom routes
 const appRoutes: Routes = [
@@ -124,7 +125,8 @@ const appRoutes: Routes = [
     SidebarComponent,
     NoteShareOpenerComponent,
     NoteShareViewComponent,
-    FilterNotesPipePipe
+    FilterNotesPipePipe,
+    NotificationComponent
   ],
   imports: [
     BrowserModule,

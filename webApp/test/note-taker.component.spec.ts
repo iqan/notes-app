@@ -130,7 +130,7 @@ describe('NoteTakerComponent', () => {
 
   it('should handle 404 error on add note', fakeAsync(() => {
     errorResponse404 = testConfig.error404;
-    doneButton = fixture.debugElement.nativeElement.querySelector('button');
+    doneButton = fixture.debugElement.nativeElement.querySelector('.btn-add');
     inputBox = fixture.debugElement.nativeElement.querySelector('input');
     textArea = fixture.debugElement.nativeElement.querySelector('textarea');
     debugElement = fixture.debugElement.query(By.css('.error-message'));
@@ -156,7 +156,7 @@ describe('NoteTakerComponent', () => {
 
    it('should handle blank fields', fakeAsync(() => {
      errorMessage = testConfig.addNotes.errorMessage;
-     doneButton = fixture.debugElement.nativeElement.querySelector('button');
+     doneButton = fixture.debugElement.nativeElement.querySelector('.btn-add');
      debugElement = fixture.debugElement.query(By.css('.error-message'));
      spyTakeNotes = spyOn(notesService, 'addNote').and.returnValue(of(errorMessage));
      if (doneButton !== null && debugElement !== null) {
@@ -175,7 +175,7 @@ describe('NoteTakerComponent', () => {
 
   it('should handle adding of a new note', fakeAsync(() => {
     positiveResponse = testConfig.addNotes.positive;
-    doneButton = fixture.debugElement.nativeElement.querySelector('button');
+    doneButton = fixture.debugElement.nativeElement.querySelector('.btn-add');
     inputBox = fixture.debugElement.nativeElement.querySelector('input');
     textArea = fixture.debugElement.nativeElement.querySelector('textarea');
     spyTakeNotes = spyOn(notesService, 'addNote').and.returnValue(of(positiveResponse));
