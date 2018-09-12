@@ -21,6 +21,12 @@ app.use('/api/v*/users', proxyUserProfile);
 proxyNotesService = httpProxy({ target: config.NOTES_URL, changeOrigin: true });
 app.use('/api/v*/notes', proxyNotesService);
 
+proxyNotificationService = httpProxy({ target: config.NOTIFICATIONS_API_URL, changeOrigin: true });
+app.use('/api/v*/notifications', proxyNotificationService);
+
+proxySocket = httpProxy({ target: config.NOTIFICATIONS_API_URL, changeOrigin: true, ws: true });
+app.use('/', proxySocket);
+
 app.use((req, res) => {
 	res.status(404).send({message: 'Resource not found..!'});
 });

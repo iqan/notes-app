@@ -6,6 +6,7 @@ import { AuthenticationService } from '../src/app/services/authentication.servic
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import 'rxjs/add/observable/throw';
+import { MockPipe } from './mock.pipe';
 
 const testConfig = {
   getNotes: {
@@ -35,7 +36,7 @@ describe('NoteViewComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NoteViewComponent ],
+      declarations: [ NoteViewComponent, MockPipe ],
       schemas: [ NO_ERRORS_SCHEMA ],
       imports: [ HttpClientModule ],
       providers: [ NotesService, AuthenticationService ]

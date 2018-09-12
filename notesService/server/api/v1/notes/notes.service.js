@@ -53,14 +53,14 @@ const uploadNotes = (res, userId, notes) => {
     });
 }
 
-const shareNotes = (res, collaborator, notes) => {
+const shareNotes = (res, collaborator, notes, token) => {
   const user = usersService.getUserByUserName(collaborator.userName);
   if (user) {
     collaborator.userId = user.userId;
   }
   notesDao.addCollaborator(collaborator, notes)
     .then((result) => {
-      notificationService.notifyUser(notes);  
+      notificationService.notifyUser(collaborator.userName, notes, token);  
       res.status(200).json(result);
     })
     .catch((error) => {

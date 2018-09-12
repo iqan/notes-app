@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./server/bin/www",
-    "nodemon": "nodemon ./server/bin/www",
+    "watch": "nodemon ./server/bin/www",
     "test": "node_modules/.bin/mocha ./server/test/**/*.js",
     "lint": "node_modules/.bin/eslint './server/**/*.js' --ignore-path .eslintignore"
   },

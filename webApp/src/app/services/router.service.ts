@@ -59,6 +59,30 @@ export class RouterService {
     ]);
   }
 
+  routeToRemindNoteView(noteId) {
+    this.router.navigate([
+      'dashboard',
+      {
+        outlets :
+        {
+          noteRemindOutlet : [ 'note', noteId, 'remind' ]
+        }
+      }
+    ]);
+  }
+
+  routeToReminderListView() {
+    this.router.navigate([
+      'dashboard',
+      {
+        outlets :
+        {
+          noteReminderListOutlet : [ 'note', 'reminders' ]
+        }
+      }
+    ]);
+  }
+
   routeBack() {
     this.location.back();
   }

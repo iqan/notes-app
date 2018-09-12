@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AuthenticationService } from '../src/app/services/authentication.service';
 import { Observable, of } from 'rxjs';
 import 'rxjs/add/observable/of';
+import { MockPipe } from './mock.pipe';
 
 const testConfig = {
   getNotes: {
@@ -42,7 +43,7 @@ describe('ListViewComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ListViewComponent ],
+      declarations: [ ListViewComponent, MockPipe ],
       schemas: [ NO_ERRORS_SCHEMA ],
       imports: [ HttpClientModule ],
       providers: [ NotesService, AuthenticationService ]

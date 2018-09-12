@@ -18,7 +18,11 @@ import {
   MatSelectModule,
   MatDialogModule,
   MatSidenavModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatSnackBarModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatListModule
 } from '@angular/material';
 
 // components inports
@@ -39,15 +43,24 @@ import { GroupNoteViewComponent } from './group-note-view/group-note-view.compon
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { NoteShareOpenerComponent } from './note-share-opener/note-share-opener.component';
 import { NoteShareViewComponent } from './note-share-view/note-share-view.component';
+import { NotificationComponent } from './notification/notification.component';
+import { ReminderOpenerComponent } from './reminder-opener/reminder-opener.component';
+import { ReminderViewComponent } from './reminder-view/reminder-view.component';
+import { ReminderListOpenerComponent } from './reminder-list-opener/reminder-list-opener.component';
+import { ReminderListViewComponent } from './reminder-list-view/reminder-list-view.component';
+
+// Pipe
+import { FilterNotesPipePipe } from './filter-notes-pipe.pipe';
 
 // services imports
 import { NotesService } from './services/notes.service';
 import { AuthenticationService } from './services/authentication.service';
 import { RouterService } from './services/router.service';
+import { SocketService } from './services/socket.service';
+import { ReminderService } from './services/reminder.service';
 
 // guards imports
 import { CanActivateRouteGuard } from './can-activate-route.guard';
-import { FilterNotesPipePipe } from './filter-notes-pipe.pipe';
 
 // custom routes
 const appRoutes: Routes = [
@@ -95,6 +108,16 @@ const appRoutes: Routes = [
         path : '',
         redirectTo : 'view/noteview',
         pathMatch : 'full'
+      },
+      {
+        path : 'note/:noteId/remind',
+        component : ReminderOpenerComponent,
+        outlet : 'noteRemindOutlet'
+      },
+      {
+        path : 'note/reminders',
+        component : ReminderListOpenerComponent,
+        outlet : 'noteReminderListOutlet'
       }
     ]
   },
@@ -124,7 +147,12 @@ const appRoutes: Routes = [
     SidebarComponent,
     NoteShareOpenerComponent,
     NoteShareViewComponent,
-    FilterNotesPipePipe
+    FilterNotesPipePipe,
+    NotificationComponent,
+    ReminderOpenerComponent,
+    ReminderViewComponent,
+    ReminderListOpenerComponent,
+    ReminderListViewComponent
   ],
   imports: [
     BrowserModule,
@@ -145,16 +173,28 @@ const appRoutes: Routes = [
     MatDialogModule,
     MatSidenavModule,
     MatTooltipModule,
+    MatSnackBarModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatListModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [
     RouterService,
     AuthenticationService,
     NotesService,
-    CanActivateRouteGuard
+    CanActivateRouteGuard,
+    SocketService,
+    ReminderService
   ],
   bootstrap: [ AppComponent ],
-  entryComponents: [ EditNoteViewComponent, GroupNoteViewComponent, NoteShareViewComponent ]
+  entryComponents: [
+    EditNoteViewComponent,
+    GroupNoteViewComponent,
+    NoteShareViewComponent,
+    ReminderViewComponent,
+    ReminderListViewComponent
+   ]
 })
 
 export class AppModule { }

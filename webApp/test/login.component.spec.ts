@@ -37,13 +37,12 @@ import { MatTableModule } from '@angular/material/table';
 import { AuthenticationService } from '../src/app/services/authentication.service';
 import { RouterService } from '../src/app/services/router.service';
 import { LoginComponent } from '../src/app/login/login.component';
+import { SocketService } from '../src/app/services/socket.service';
 import { HttpClientModule } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { ReactiveFormsModule } from '@angular/forms';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/throw';
-
-
 
 const testConfig = {
   error404: {
@@ -128,6 +127,7 @@ describe('LoginComponent', () => {
       providers: [
       AuthenticationService,
       RouterService,
+      SocketService,
       { provide: Location, useValue: {} },
       { provide: Router, useValue: routerSpy }
       ]

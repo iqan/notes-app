@@ -1,0 +1,29 @@
+version: '3'
+
+networks:
+  keep_network:
+    driver: bridge
+
+services:
+  notification_service:
+    image: "iqan/keep:1.0.0"
+    build: .
+    container_name: notification_service
+    ports:
+     - "3000:3000"
+    networks:
+     - keep_network
+    environment:
+     - MONGO_URL=mongodb://db:27017/keep-2
+    restart: on-failure
+    depends_on:
+      - db
+  db:
+    image: "mongo:4.1.1-xenial"
+    container_name: db
+    expose:
+      - 27017
+    ports:
+      - "27017:27017"
+    networks:
+      - keep_network

@@ -29,8 +29,16 @@ export class AuthenticationService {
     localStorage.setItem(this.authTokenName, token);
   }
 
+  setUserName(userName) {
+    localStorage.setItem('userName', userName);
+  }
+
   getBearerToken() {
     return localStorage.getItem(this.authTokenName);
+  }
+
+  getUserName() {
+    return localStorage.getItem('userName');
   }
 
   isUserAuthenticated(token): Promise<boolean> {
@@ -53,6 +61,7 @@ export class AuthenticationService {
 
   logout() {
     localStorage.removeItem(this.authTokenName);
+    localStorage.removeItem('userName');
     this.isAuthenticatedSubject.next(false);
     this.isAuthenticated = false;
   }

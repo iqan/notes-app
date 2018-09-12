@@ -24,6 +24,7 @@ export class LoginComponent {
       this.authenticationService.authenticateUser(login).subscribe(
         data => {
           this.authenticationService.setBearerToken(data['token']);
+          this.authenticationService.setUserName(this.username.value);
           this.routerService.routeToDashboard();
         },
         err => this.handleErrorResponse(err)
