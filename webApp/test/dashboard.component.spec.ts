@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { DashboardComponent } from '../src/app/dashboard/dashboard.component';
 import { NotesService } from '../src/app/services/notes.service';
 import { AuthenticationService } from '../src/app/services/authentication.service';
+import { SidebarService } from '../src/app/services/sidebar.service';
 import { Observable } from 'rxjs';
 import 'rxjs/add/observable/of';
 
@@ -36,7 +37,8 @@ describe('DashboardComponent', () => {
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
       NotesService,
-      AuthenticationService
+      AuthenticationService,
+      SidebarService
       ]
     })
     .compileComponents();

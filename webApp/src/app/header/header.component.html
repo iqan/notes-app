@@ -9,14 +9,14 @@
     </mat-form-field>
   </div>
   <div class="menu-container">
-    <button mat-button [matMenuTriggerFor]="menu">
+    <button class="menu-opener" mat-button [matMenuTriggerFor]="menu">
       <mat-icon>more_vert</mat-icon>
     </button>
-    <mat-menu #menu="matMenu">
-      <button *ngIf="isNoteView && isAuthenticated" mat-menu-item (click)='switchToListView()'>
+    <mat-menu #menu #menu="matMenu">
+      <button class="switchToListView" *ngIf="isNoteView && isAuthenticated" mat-menu-item (click)='switchToListView()'>
         <mat-icon>view_list</mat-icon>List View
       </button>
-      <button *ngIf="!isNoteView && isAuthenticated" mat-menu-item (click)='switchToNoteView()'>
+      <button class="switchToNoteView" *ngIf="!isNoteView && isAuthenticated" mat-menu-item (click)='switchToNoteView()'>
         <mat-icon>view_quilt</mat-icon>Note View
       </button>
       <button #btnLogout mat-menu-item *ngIf="isAuthenticated" (click)="logout()" color="warn">Logout</button>
