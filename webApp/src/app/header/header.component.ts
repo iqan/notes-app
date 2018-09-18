@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterService } from '../services/router.service';
 import { AuthenticationService } from '../services/authentication.service';
+import { SidebarService } from '../services/sidebar.service';
 
 @Component({
   selector: 'app-header',
@@ -12,7 +13,8 @@ export class HeaderComponent implements OnInit {
   isAuthenticated = false;
 
   constructor(private routesService: RouterService,
-              private authService: AuthenticationService) {
+              private authService: AuthenticationService,
+              private sidebarService: SidebarService) {
   }
 
   ngOnInit() {
@@ -36,5 +38,9 @@ export class HeaderComponent implements OnInit {
   logout() {
     this.routesService.routeToLogout();
     this.isAuthenticated = false;
+  }
+
+  toggleSidebar() {
+    this.sidebarService.toggle();
   }
 }

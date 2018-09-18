@@ -1,5 +1,5 @@
 <mat-sidenav-container>
-  <mat-sidenav class="sidemenu" mode="side" [opened]="!mobileQuery.matches">
+  <mat-sidenav #sidenav class="sidemenu" [mode]="!mobileQuery.matches ? 'side': 'over'" [opened]="!mobileQuery.matches">
     <app-sidebar></app-sidebar>
   </mat-sidenav>
   <mat-sidenav-content class="main-content">

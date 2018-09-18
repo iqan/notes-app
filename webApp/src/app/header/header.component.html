@@ -1,4 +1,6 @@
-<mat-toolbar color="primary">Keep
+<mat-toolbar color="primary">
+  <button class="btn-menu" mat-button (click)="toggleSidebar()"><mat-icon>menu</mat-icon></button>
+  <span>Notes App</span>
 	<span class="fill-remaining-space"></span>
 	<div>
 		<i *ngIf="isNoteView" class="material-icons switchToListView button-pointer" (click)='switchToListView()'>view_list</i>

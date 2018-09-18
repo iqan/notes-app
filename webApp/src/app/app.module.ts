@@ -52,6 +52,7 @@ import { NotesService } from './services/notes.service';
 import { AuthenticationService } from './services/authentication.service';
 import { RouterService } from './services/router.service';
 import { SocketService } from './services/socket.service';
+import { SidebarService } from './services/sidebar.service';
 
 // guards imports
 import { CanActivateRouteGuard } from './can-activate-route.guard';
@@ -168,7 +169,8 @@ const appRoutes: Routes = [
     AuthenticationService,
     NotesService,
     CanActivateRouteGuard,
-    SocketService
+    SocketService,
+    SidebarService
   ],
   bootstrap: [ AppComponent ],
   entryComponents: [ EditNoteViewComponent, GroupNoteViewComponent, NoteShareViewComponent, ReminderViewComponent ]
