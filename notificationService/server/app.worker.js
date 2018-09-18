@@ -9,7 +9,7 @@ const registerWorker = () => {
     (next) => {
       doWork();
       //Repeat after the delay
-      setTimeout(() => {
+      setTimeout(() => { /* eslint-disable-line no-undef */
         next();
       }, appConfig.sleepDuration)
     },
@@ -28,18 +28,26 @@ const doWork = () => {
       log.error(err);
     }
     log.info('notifications fetched from db');
-    log.debug(JSON.stringify(notifications));
     if (notifications && notifications.length > 0) {
       log.info('notifications found');
-      const notificationsToProcess = notifications.filter(n => parseInt(n.remindAt) < parseInt(Date.now()));
-      log.info('notifications filtered');
-      log.debug(JSON.stringify(notificationsToProcess));
-      notificationsToProcess.map(n => {
-        socket.notify(n);
-      });
+      notifications.map(n => {
+        if (IsLessThanCurrentTime(n.remindAt) && !n.isSent) {
+          const res = socket.notify(n);
+          if(res) {
+            notificationsDao.markNotificationSent(n._id)
+            .then(res => log.debug(res))
+            .catch(err => log.error(err));
+          }
+        }
+      });      
     }
   });
   log.info('process completed, waiting for next round ...');
+}
+
+const IsLessThanCurrentTime = (remindAt) => {
+  log.debug('checking datetime: now: ' + new Date() + ' and reminder: ' + new Date(remindAt));
+  return new Date() >= new Date(remindAt);
 }
 
 module.exports = {

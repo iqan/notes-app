@@ -71,6 +71,18 @@ export class RouterService {
     ]);
   }
 
+  routeToReminderListView() {
+    this.router.navigate([
+      'dashboard',
+      {
+        outlets :
+        {
+          noteReminderListOutlet : [ 'note', 'reminders' ]
+        }
+      }
+    ]);
+  }
+
   routeBack() {
     this.location.back();
   }

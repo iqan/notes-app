@@ -16,22 +16,34 @@ const onConnect = (socket) => {
 
   socket.on('register', (userName) => {
     log.debug('client is registered.');
-    sessions = sessions.filter(s => s.userName == userName);
+    sessions = sessions.filter(s => s.userName !== userName);
     sessions.push({ id: socket.id, userName: userName });
   });
+
+  socket.on('deregister', userName => {
+    log.info('client disconnected. userName: ' + userName);
+    sessions = sessions.filter(s => s.userName !== userName);
+ });
 };
 
-// shareInfo = { userName: <userName>, note: <note>}
-const notify = (shareInfo) => {
-  log.info('notifying note share');
+// notification = { userName: <userName>, note: <note>}
+const notify = (notification) => {
+  log.info('notifying: '+ JSON.stringify(notification));
   log.debug('connected users: ' + JSON.stringify(sessions));
-  const session = sessions.find(s => s.userName == shareInfo.userName);
+  const session = sessions.find(s => s.userName == notification.userName);
   if(session) {
     const socketId = session.id;
-    io.to(socketId).emit('share-note', shareInfo);
-    log.info('notified user');
+    if(!notification.self) {
+      io.to(socketId).emit('share-note', notification);
+      log.info('notified user');
+    } else {
+      io.to(socketId).emit('reminder', notification);
+      log.info('reminded user about note');
+    }
+    return true;
   } else {
     log.info('user session not found');
+    return false;
   }
 }
 

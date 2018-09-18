@@ -12,7 +12,7 @@ const dbConfig = {
 };
 
 const logConfig = {
-  level: 'debug'
+  level: process.env.LOG_LEVEL || 'debug'
 };
 
 const authConfig = {

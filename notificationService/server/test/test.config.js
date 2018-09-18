@@ -11,12 +11,12 @@ const auth = {
 }
 
 const reminders = {
-  rem1: { userName: 'user1', note: { title: 'title1', text: 'text1' }, remindAt: '1536605985748', userId: 'some-unique-user-id-1' },
-  snoozedRem1: { userName: 'user1', note: { title: 'title1', text: 'text1' }, remindAt: '1536605986000', userId: 'some-unique-user-id-1' },
+  rem1: { userName: 'user1', note: { title: 'title1', text: 'text1' }, remindAt: new Date().toISOString(), userId: 'some-unique-user-id-1' },
+  snoozedRem1: { userName: 'user1', note: { title: 'title1', text: 'text1' }, remindAt: new Date(2019, 1, 1).toISOString(), userId: 'some-unique-user-id-1' },
 }
 
 const notifications = {
-  notification1: { userName: 'user2', notes: [{ title: 'title1', text: 'text1' }],  remindAt: '1536605985748' }
+  notification1: { userName: 'user2', notes: [{ title: 'title1', text: 'text1' }],  remindAt: new Date().toISOString() }
 }
 
 module.exports = {
