@@ -22,7 +22,8 @@ import {
   MatSnackBarModule,
   MatDatepickerModule,
   MatNativeDateModule,
-  MatListModule
+  MatListModule,
+  MatMenuModule
 } from '@angular/material';
 
 // components inports
@@ -57,6 +58,7 @@ import { NotesService } from './services/notes.service';
 import { AuthenticationService } from './services/authentication.service';
 import { RouterService } from './services/router.service';
 import { SocketService } from './services/socket.service';
+import { SidebarService } from './services/sidebar.service';
 import { ReminderService } from './services/reminder.service';
 
 // guards imports
@@ -177,6 +179,7 @@ const appRoutes: Routes = [
     MatDatepickerModule,
     MatNativeDateModule,
     MatListModule,
+    MatMenuModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [
@@ -185,6 +188,7 @@ const appRoutes: Routes = [
     NotesService,
     CanActivateRouteGuard,
     SocketService,
+    SidebarService,
     ReminderService
   ],
   bootstrap: [ AppComponent ],

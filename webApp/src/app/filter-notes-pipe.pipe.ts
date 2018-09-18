@@ -8,14 +8,21 @@ import { NotesService } from './services/notes.service';
 })
 export class FilterNotesPipePipe implements PipeTransform {
   filter: string;
+  searchWord: string;
 
   constructor(private notesService: NotesService) {
     this.notesService.getFilterSubject().subscribe(filter => {
       this.filter = filter;
     });
+
+    this.notesService.getSearchFilter().subscribe(s => {
+      this.searchWord = s;
+    });
   }
 
   transform(notes: Array<Note>, args?: any): any {
+    notes = notes.filter(n => n.title.toLowerCase().includes(this.searchWord) ||
+      n.text.toLowerCase().includes(this.searchWord));
     if (this.filter === 'all') {
       return notes;
     }
@@ -24,5 +31,4 @@ export class FilterNotesPipePipe implements PipeTransform {
     }
     return notes.filter(note => note.groupName === this.filter);
   }
-
 }
