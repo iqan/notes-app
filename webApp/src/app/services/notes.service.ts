@@ -12,12 +12,14 @@ export class NotesService {
   notes: Array<Note>;
   notesSubject: BehaviorSubject<Array<Note>>;
   filterSubject: BehaviorSubject<string>;
+  searchFilterSubject: BehaviorSubject<string>;
 
   constructor(private httpClient: HttpClient,
               private authenticationService: AuthenticationService) {
                 this.notes = [];
                 this.notesSubject = new BehaviorSubject(this.notes);
                 this.filterSubject = new BehaviorSubject('all');
+                this.searchFilterSubject = new BehaviorSubject('');
               }
 
   fetchNotesFromServer(): void {
@@ -118,6 +120,14 @@ export class NotesService {
 
   getFilterSubject() {
     return this.filterSubject;
+  }
+
+  filterNotes(searchWord: string): void {
+    this.searchFilterSubject.next(searchWord);
+  }
+
+  getSearchFilter() {
+    return this.searchFilterSubject;
   }
 
   private addNoteToArray(note: Note) {

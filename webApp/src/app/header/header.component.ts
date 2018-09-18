@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RouterService } from '../services/router.service';
 import { AuthenticationService } from '../services/authentication.service';
 import { SidebarService } from '../services/sidebar.service';
+import { NotesService } from '../services/notes.service';
 
 @Component({
   selector: 'app-header',
@@ -11,10 +12,12 @@ import { SidebarService } from '../services/sidebar.service';
 export class HeaderComponent implements OnInit {
   isNoteView = true;
   isAuthenticated = false;
+  search: string;
 
   constructor(private routesService: RouterService,
               private authService: AuthenticationService,
-              private sidebarService: SidebarService) {
+              private sidebarService: SidebarService,
+              private notesService: NotesService) {
   }
 
   ngOnInit() {
@@ -40,7 +43,15 @@ export class HeaderComponent implements OnInit {
     this.isAuthenticated = false;
   }
 
+  register() {
+    this.routesService.routeToRegister();
+  }
+
   toggleSidebar() {
     this.sidebarService.toggle();
+  }
+
+  searchChanged() {
+    this.notesService.filterNotes(this.search);
   }
 }

@@ -22,7 +22,8 @@ import {
   MatSnackBarModule,
   MatDatepickerModule,
   MatNativeDateModule,
-  MatListModule
+  MatListModule,
+  MatMenuModule
 } from '@angular/material';
 
 // components inports
@@ -178,6 +179,7 @@ const appRoutes: Routes = [
     MatDatepickerModule,
     MatNativeDateModule,
     MatListModule,
+    MatMenuModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [

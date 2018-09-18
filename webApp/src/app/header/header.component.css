@@ -1,7 +1,40 @@
-.fill-remaining-space {
-	flex: 1 1 auto;
+.toolbar {
+  display: flex;
 }
 
-.button-pointer {
-  cursor: pointer;
+.title-container {
+  display: flex;
+  flex-grow: 1;
+}
+
+.search-container {
+  display: flex;
+  flex-grow: 2;
+  padding-top: 10px;
+}
+
+@media (max-width: 600px) {
+  .search-container {
+    display: none;
+  }
+}
+
+.menu-container {
+  display: flex;
+  flex-grow: 1;
+  justify-content: flex-end;
+}
+
+.btn-menu {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .btn-menu {
+    display: flex;
+  }
+}
+
+.search-field {
+  width: 100%;
 }

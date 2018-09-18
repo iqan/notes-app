@@ -1,7 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectorRef } from '@angular/core';
 import { Note } from '../note';
 import { RouterService } from '../services/router.service';
 import { NotesService } from '../services/notes.service';
+import { MediaMatcher } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-note',
@@ -12,8 +13,15 @@ export class NoteComponent {
   @Input()
   note: Note;
   showActions: boolean;
+  mobileQuery: MediaQueryList;
+  private _mobileQueryListener: () => void;
 
-  constructor(private routerService: RouterService, private notesService: NotesService) { }
+  constructor(private routerService: RouterService, private notesService: NotesService,
+              private changeDetectorRef: ChangeDetectorRef, private media: MediaMatcher) {
+    this.mobileQuery = media.matchMedia('(max-width: 600px)');
+    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+    this.mobileQuery.addListener(this._mobileQueryListener);
+  }
 
   openEditView() {
     this.routerService.routeToEditNoteView(this.note.id);
