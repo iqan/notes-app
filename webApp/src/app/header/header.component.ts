@@ -13,6 +13,8 @@ export class HeaderComponent implements OnInit {
   isNoteView = true;
   isAuthenticated = false;
   search: string;
+  isNoteSelected = false;
+  selectedNotesCount: number;
 
   constructor(private routesService: RouterService,
               private authService: AuthenticationService,
@@ -22,6 +24,10 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.authService.getAuthenticatedSubject().subscribe(isAuthenticated => this.isAuthenticated = isAuthenticated);
+    this.notesService.getSelectedNotesSubject().subscribe(n => {
+      this.isNoteSelected = n.length > 0;
+      this.selectedNotesCount = n.length;
+    });
   }
 
   switchToListView() {
@@ -53,5 +59,25 @@ export class HeaderComponent implements OnInit {
 
   searchChanged() {
     this.notesService.filterNotes(this.search);
+  }
+
+  unSelectAll() {
+    this.notesService.clearSelectedNotes();
+  }
+
+  deleteNotes() {
+    this.notesService.deleteSelected();
+  }
+
+  markAsFavourite() {
+    this.notesService.addSelectedToFavourites();
+  }
+
+  addToGroup() {
+
+  }
+
+  shareNotes() {
+
   }
 }

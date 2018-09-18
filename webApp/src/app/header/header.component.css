@@ -38,3 +38,14 @@
 .search-field {
   width: 100%;
 }
+
+.action-container {
+  display: flex;
+  flex-grow: 2;
+  padding-top: 10px;
+  justify-content: center;
+}
+
+.action-container button {
+  margin: 10px;
+}

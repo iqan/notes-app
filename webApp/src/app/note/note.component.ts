@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, ChangeDetectorRef, OnInit } from '@angular/core';
 import { Note } from '../note';
 import { RouterService } from '../services/router.service';
 import { NotesService } from '../services/notes.service';
@@ -9,11 +9,12 @@ import { MediaMatcher } from '@angular/cdk/layout';
   templateUrl: './note.component.html',
   styleUrls: ['./note.component.css']
 })
-export class NoteComponent {
+export class NoteComponent implements OnInit {
   @Input()
   note: Note;
   showActions: boolean;
   mobileQuery: MediaQueryList;
+  isSelected = false;
   private _mobileQueryListener: () => void;
 
   constructor(private routerService: RouterService, private notesService: NotesService,
@@ -21,6 +22,12 @@ export class NoteComponent {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
+  }
+
+  ngOnInit() {
+    this.notesService.getSelectedNotesSubject().subscribe(n => {
+      this.isSelected = n.indexOf(this.note.id) > -1;
+    });
   }
 
   openEditView() {
@@ -36,14 +43,18 @@ export class NoteComponent {
   }
 
   addToGroup(noteId) {
-    this.routerService.routeToAddToGroupView(this.note.id);
+    this.routerService.routeToAddToGroupView(noteId);
   }
 
   shareNote(noteId) {
-    this.routerService.routeToShareNoteView(this.note.id);
+    this.routerService.routeToShareNoteView(noteId);
   }
 
   remind(noteId) {
-    this.routerService.routeToRemindNoteView(this.note.id);
+    this.routerService.routeToRemindNoteView(noteId);
+  }
+
+  markNote(noteId) {
+    this.notesService.addNoteAsSelected(noteId);
   }
 }

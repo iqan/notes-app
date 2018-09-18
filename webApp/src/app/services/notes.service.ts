@@ -13,11 +13,15 @@ export class NotesService {
   notesSubject: BehaviorSubject<Array<Note>>;
   filterSubject: BehaviorSubject<string>;
   searchFilterSubject: BehaviorSubject<string>;
+  selectedNotes: Array<string>;
+  selectedNotesSubject: BehaviorSubject<Array<string>>;
 
   constructor(private httpClient: HttpClient,
               private authenticationService: AuthenticationService) {
                 this.notes = [];
                 this.notesSubject = new BehaviorSubject(this.notes);
+                this.selectedNotes = [];
+                this.selectedNotesSubject = new BehaviorSubject(this.selectedNotes);
                 this.filterSubject = new BehaviorSubject('all');
                 this.searchFilterSubject = new BehaviorSubject('');
               }
@@ -129,6 +133,67 @@ export class NotesService {
   getSearchFilter() {
     return this.searchFilterSubject;
   }
+
+  addSharedNote(note) {
+    this.notes.push(note);
+    this.notesSubject.next(this.notes);
+  }
+
+  addNoteAsSelected(noteId: string): void {
+    const existingId = this.selectedNotes.indexOf(noteId);
+    if (existingId > -1) {
+      this.selectedNotes.splice(existingId);
+    } else {
+      this.selectedNotes.push(noteId);
+    }
+    this.selectedNotesSubject.next(this.selectedNotes);
+  }
+
+  getSelectedNotesSubject(): BehaviorSubject<Array<string>> {
+    return this.selectedNotesSubject;
+  }
+
+  clearSelectedNotes() {
+    this.selectedNotes = [];
+    this.selectedNotesSubject.next(this.selectedNotes);
+  }
+
+  deleteSelected(): void {
+    const headers = this.getAuthorizationHeader();
+    this.httpClient.request('delete', `${this.baseUrl}`, { headers: headers, body: this.selectedNotes })
+      .subscribe(
+        done => {
+          this.notes = this.notes.filter(n => this.selectedNotes.indexOf(n.id) > -1);
+          this.notesSubject.next(this.notes);
+          this.selectedNotes = [];
+          this.selectedNotesSubject.next(this.selectedNotes);
+        },
+        err => {}
+    );
+  }
+
+  addSelectedToFavourites(): void {
+    const headers = this.getAuthorizationHeader();
+    this.httpClient.post(`${this.baseUrl}/favourites`, this.selectedNotes, { headers })
+      .subscribe(
+        done => {
+          this.notes = this.notes.map(n => {
+            if (this.selectedNotes.indexOf(n.id) > -1) {
+              n.isFavourite = true;
+            }
+            return n;
+          });
+          this.notesSubject.next(this.notes);
+          this.selectedNotes = [];
+          this.selectedNotesSubject.next(this.selectedNotes);
+        },
+        err => {}
+    );
+  }
+
+  addSelectedToGroup(): void {}
+
+  shareSelected(): void {}
 
   private addNoteToArray(note: Note) {
     const noteToEdit = this.notes.find(n => n.id === note.id);

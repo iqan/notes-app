@@ -1,4 +1,12 @@
 <mat-card class="note-card" (mouseenter) ="showActions = true"  (mouseleave) ="showActions = false">
+  <div class="check-btn" *ngIf="showActions || mobileQuery.matches || isSelected">
+    <i *ngIf="!isSelected" class="material-icons" style="cursor: pointer;" (click)="markNote(note.id)">
+      check_circle_outline
+    </i>
+    <i *ngIf="isSelected" class="material-icons" style="cursor: pointer;" (click)="markNote(note.id)">
+      check_circle
+    </i>
+  </div>
   <div (click) = "openEditView()">
     <mat-card-title>{{ note.title }}</mat-card-title>
     <mat-card-content>{{ note.text }}</mat-card-content>

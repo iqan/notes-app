@@ -1,4 +1,4 @@
-<mat-toolbar class="toolbar" color="primary">
+<mat-toolbar class="toolbar" color="primary" *ngIf="!isNoteSelected">
   <div class="title-container">
     <button class="btn-menu" mat-button (click)="toggleSidebar()"><mat-icon>menu</mat-icon></button>
     <p>Notes App</p>
@@ -23,5 +23,29 @@
       <button #btnLogin mat-menu-item *ngIf="!isAuthenticated" (click)="login()" color="primary">Login</button>
       <button #btnRegister mat-menu-item *ngIf="!isAuthenticated" (click)="register()" color="accent">Register</button>
     </mat-menu>
+  </div>
+</mat-toolbar>
+<mat-toolbar class="toolbar" color="accent" *ngIf="isNoteSelected">
+  <div class="title-container">
+    <button mat-button (click)="unSelectAll()">
+      <mat-icon>keyboard_backspace</mat-icon>
+    </button>
+  </div>
+  <div class="action-container">
+    <button mat-button (click)="deleteNotes()" matTooltip="Delete notes">
+      <i class="material-icons">delete</i>
+    </button>
+    <button mat-button (click)="markAsFavourite()" matTooltip="Mark notes as favourite">
+      <i class="material-icons">favorite</i>
+    </button>
+    <button mat-button (click)="addToGroup()" matTooltip="Add notes to a group">
+      <i class="material-icons">label</i>
+    </button>
+    <button mat-button (click)="shareNotes()" matTooltip="Share notes">
+      <i class="material-icons">share</i>
+    </button>
+  </div>
+  <div class="menu-container">
+    <span>({{ selectedNotesCount }}) selected</span>
   </div>
 </mat-toolbar>
