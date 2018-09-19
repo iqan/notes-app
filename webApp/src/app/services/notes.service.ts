@@ -129,11 +129,7 @@ export class NotesService {
   }
 
   getselectedNotes() {
-    return this.selectedNotes.map(sn => {
-      const n = new Note();
-      n.id = sn;
-      return n;
-    });
+    return this.selectedNotes.map(sn => this.notes.find(n => n.id === sn));
   }
 
   filterNotes(searchWord: string): void {
@@ -173,10 +169,9 @@ export class NotesService {
     this.httpClient.request('delete', `${this.baseUrl}`, { headers: headers, body: this.selectedNotes })
       .subscribe(
         done => {
-          this.notes = this.notes.filter(n => this.selectedNotes.indexOf(n.id) > -1);
+          this.notes = this.notes.filter(n => this.selectedNotes.indexOf(n.id) === -1);
           this.notesSubject.next(this.notes);
-          this.selectedNotes = [];
-          this.selectedNotesSubject.next(this.selectedNotes);
+          this.clearSelectedNotes();
         },
         err => {}
     );
@@ -194,8 +189,7 @@ export class NotesService {
             return n;
           });
           this.notesSubject.next(this.notes);
-          this.selectedNotes = [];
-          this.selectedNotesSubject.next(this.selectedNotes);
+          this.clearSelectedNotes();
         },
         err => {}
     );
@@ -213,8 +207,7 @@ export class NotesService {
             return n;
           });
           this.notesSubject.next(this.notes);
-          this.selectedNotes = [];
-          this.selectedNotesSubject.next(this.selectedNotes);
+          this.clearSelectedNotes();
         },
         err => {}
     );
