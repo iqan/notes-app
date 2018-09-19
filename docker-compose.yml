@@ -31,7 +31,7 @@ services:
       - na_notification_service
     environment:
       - USER_PROFILE_URL=http://na_user_profile:3001/
-      - NOTES_URL=http://na_notes_service:3002/,
+      - NOTES_URL=http://na_notes_service:3002/
       - NOTIFICATIONS_API_URL=http://na_notification_service:3003/
   na_notes_service:
     image: "iqan/na-notes-service:1.0.0"

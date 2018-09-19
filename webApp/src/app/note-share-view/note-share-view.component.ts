@@ -15,6 +15,7 @@ export class NoteShareViewComponent implements OnInit {
   collaborator: string;
   accessType: string;
   acTypes: Array<string> = [ 'viewer', 'editor' ];
+  multiple: boolean;
 
   constructor(
     private dialogRef: MatDialogRef<NoteShareViewComponent>,
@@ -22,11 +23,24 @@ export class NoteShareViewComponent implements OnInit {
     private noteService: NotesService) { }
 
   ngOnInit() {
-    this.note = this.noteService.getNoteById(this.data.noteId);
+    const data = this.data.noteId;
+    if (data === 'multiple') {
+      this.multiple = true;
+    } else {
+      this.multiple = false;
+      this.note = this.noteService.getNoteById(data);
+    }
   }
 
   onSave() {
     this.noteService.shareNotes(this.collaborator, this.accessType, [ this.note ]).subscribe(
+      data => this.dialogRef.close(),
+      error => this.handleErrorResponse(error)
+    );
+  }
+
+  onSaveMultiple() {
+    this.noteService.shareNotes(this.collaborator, this.accessType).subscribe(
       data => this.dialogRef.close(),
       error => this.handleErrorResponse(error)
     );

@@ -74,10 +74,10 @@ export class HeaderComponent implements OnInit {
   }
 
   addToGroup() {
-
+    this.routesService.routeToAddToGroupView('multiple');
   }
 
   shareNotes() {
-
+    this.routesService.routeToShareNoteView('multiple');
   }
 }

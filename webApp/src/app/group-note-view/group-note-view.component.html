@@ -3,7 +3,7 @@
 <label class="error-message">{{ errMessage }}</label>
 
 <div class="group-notes-container">
-  <div class="note-group-form">
+  <div class="note-group-form" *ngIf="!multiple">
     <mat-label>{{ note.title }}</mat-label>
     <hr>
     <mat-form-field>
@@ -11,6 +11,14 @@
     </mat-form-field>
     <div class="btn-group-note">
       <button mat-raised-button color="primary" (click)="onSave()">Save</button>
+    </div>
+  </div>
+  <div class="note-group-form" *ngIf="multiple">
+    <mat-form-field>
+      <input [(ngModel)]="groupName" name="editGroupMultiple" matInput placeholder="Group name" type="text">
+    </mat-form-field>
+    <div class="btn-group-note">
+      <button mat-raised-button color="primary" (click)="onSaveMultiple()">Save</button>
     </div>
   </div>
 </div>

@@ -4,8 +4,10 @@
 
 <div class="share-notes-container">
   <div class="note-share-form">
-    <mat-label>{{ note.title }}</mat-label>
-    <hr>
+    <div *ngIf="!multiple">
+      <mat-label>{{ note.title }}</mat-label>
+      <hr>
+    </div>
     <mat-form-field>
       <input [(ngModel)]="collaborator" name="collaborator" matInput placeholder="User Email" type="text">
     </mat-form-field>
@@ -17,7 +19,8 @@
       </mat-select>
     </mat-form-field>
     <div class="btn-share-note">
-      <button mat-raised-button color="primary" (click)="onSave()">Save</button>
+      <button *ngIf="!multiple" mat-raised-button color="primary" (click)="onSave()">Save</button>
+      <button *ngIf="multiple" mat-raised-button color="primary" (click)="onSaveMultiple()">Add</button>
     </div>
   </div>
 </div>
