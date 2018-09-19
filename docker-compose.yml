@@ -10,7 +10,7 @@ services:
     build: ./webApp
     container_name: na_web_app
     ports:
-     - "8000:80"
+     - "80:80"
     networks:
      - na_network
     restart: on-failure

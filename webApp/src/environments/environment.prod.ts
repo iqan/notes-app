@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiGatewayUrl: 'http://localhost:3000/'
+  apiGatewayUrl: 'http://iqansubuntu1.westeurope.cloudapp.azure.com:3000/'
 };
