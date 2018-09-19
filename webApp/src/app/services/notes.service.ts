@@ -5,6 +5,7 @@ import { AuthenticationService } from './authentication.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
+import { variable } from '@angular/compiler/src/output/output_ast';
 
 @Injectable()
 export class NotesService {
@@ -116,14 +117,23 @@ export class NotesService {
       );
   }
 
-  shareNotes(userName: string, accessType: string, notes: Array<Note>): Observable<string> {
+  shareNotes(userName: string, accessType: string, notes: Array<Note> = null): Observable<string> {
     const headers = this.getAuthorizationHeader();
-    const content = { collaborator: { userName: userName, type: accessType }, notes: notes };
+    const notesToShare = notes ? notes : this.getselectedNotes();
+    const content = { collaborator: { userName: userName, type: accessType }, notes: notesToShare };
     return this.httpClient.post<string>(`${this.baseUrl}/share`, content, { headers });
   }
 
   getFilterSubject() {
     return this.filterSubject;
+  }
+
+  getselectedNotes() {
+    return this.selectedNotes.map(sn => {
+      const n = new Note();
+      n.id = sn;
+      return n;
+    });
   }
 
   filterNotes(searchWord: string): void {
@@ -191,9 +201,24 @@ export class NotesService {
     );
   }
 
-  addSelectedToGroup(): void {}
-
-  shareSelected(): void {}
+  addSelectedToGroup(groupName: string): void {
+    const headers = this.getAuthorizationHeader();
+    this.httpClient.post(`${this.baseUrl}/group/${groupName}`, this.selectedNotes, { headers })
+      .subscribe(
+        done => {
+          this.notes = this.notes.map(n => {
+            if (this.selectedNotes.indexOf(n.id) > -1) {
+              n.groupName = groupName;
+            }
+            return n;
+          });
+          this.notesSubject.next(this.notes);
+          this.selectedNotes = [];
+          this.selectedNotesSubject.next(this.selectedNotes);
+        },
+        err => {}
+    );
+  }
 
   private addNoteToArray(note: Note) {
     const noteToEdit = this.notes.find(n => n.id === note.id);

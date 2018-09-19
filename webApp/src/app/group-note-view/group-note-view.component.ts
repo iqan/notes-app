@@ -12,6 +12,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class GroupNoteViewComponent implements OnInit {
   note: Note;
   errMessage: string;
+  groupName: string;
+  multiple: boolean;
 
   constructor(
     private dialogRef: MatDialogRef<GroupNoteViewComponent>,
@@ -19,7 +21,13 @@ export class GroupNoteViewComponent implements OnInit {
     private noteService: NotesService) { }
 
   ngOnInit() {
-    this.note = this.noteService.getNoteById(this.data.noteId);
+    const data = this.data.noteId;
+    if (data === 'multiple') {
+      this.multiple = true;
+    } else {
+      this.multiple = false;
+      this.note = this.noteService.getNoteById(data);
+    }
   }
 
   onSave() {
@@ -27,6 +35,11 @@ export class GroupNoteViewComponent implements OnInit {
       data => this.dialogRef.close(),
       error => this.handleErrorResponse(error)
     );
+  }
+
+  onSaveMultiple() {
+    this.noteService.addSelectedToGroup(this.groupName);
+    this.dialogRef.close();
   }
 
   handleErrorResponse(error: HttpErrorResponse): void {
