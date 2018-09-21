@@ -38,7 +38,13 @@ const getByUserName = (req, res) => {
 }
 
 const getAll = (req, res) => {
-  res.status(403).json('not implemented');
+  usersServices.getAll()
+    .then((result) => {
+      res.status(result.status).json(result.users);
+    })
+    .catch((error) => {
+      res.status(error.status).json(error);
+    });
 }
 
 module.exports = {

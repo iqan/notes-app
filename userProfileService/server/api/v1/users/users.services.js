@@ -11,7 +11,7 @@ const login = (user) => {
       auth.signToken(result.userInfo, authConfig.secret, authConfig.expiry, (err, token) => {
         if(err) reject({ message: 'Failed to generate token', status: 500 });
         resolve({ token: token, user: result.userInfo, status: 200 });
-      })
+      });
     })
     .catch(err => reject(err));
   });
@@ -32,10 +32,19 @@ const getByUserName = (userName) => {
       .then(result => resolve(result))
       .catch(err => reject(err));
   })
-}
+};
+
+const getAll = () => {
+  return new Promise((resolve, reject) => {
+    usersDao.getAllUserNames()
+      .then(result => resolve(result))
+      .catch(err => reject(err));
+  })
+};
 
 module.exports = {
   login,
   register,
-  getByUserName
+  getByUserName,
+  getAll
 };

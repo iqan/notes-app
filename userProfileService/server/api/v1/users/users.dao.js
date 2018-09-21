@@ -100,8 +100,30 @@ const getUserByUserName = (userName) => {
   });
 }
 
+const getAllUserNames = () => {
+  return new Promise((resolve, reject) => {
+    try {
+      log.info('getting all users');    
+      userModel.find((err, users) => {
+        if(err) throw err;
+        if(users) {
+          log.info('successfully fetched all users');
+          resolve({ status: 200, users: users.map(u => u.userName) });
+        } else {
+          log.info('Users Not found');
+          reject({ status: 404, message: 'Users not found' });
+        }
+      });
+    } catch (err) {
+      log.error(err);
+      reject({ message: 'Failed to get Users due to unexpected error', status: 500 });
+    }
+  });
+}
+
 module.exports = {
   register,
   login,
-  getUserByUserName
+  getUserByUserName,
+  getAllUserNames
 }
