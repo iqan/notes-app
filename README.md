@@ -21,5 +21,10 @@ This is a simple node.js application with MongoDB access, can be used to impleme
 - [Notes Service](./notesService/README.md)
 - [Notifications Service](./notificationService/README.md)
 
+#### API Specs
+- [User Profile Service](http://localhost:3000/api/v1/users/api-specs/)
+- [Notes Service](http://localhost:3000/api/v1/notes/api-specs/)
+- [Notifications Service](http://localhost:3000/api/v1/notifications/api-specs/)
+
 #### Architecture
 ![Architecture diagram](./na_architecture.jpg "notes-app-architecture")

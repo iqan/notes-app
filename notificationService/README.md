@@ -29,6 +29,8 @@ Run application ``` npm start ```
 ```docker-compose down ```
 
 ### API Specification:
+- Swagger UI:
+Browse - http://localhost:3000/api/v1/notifications/api-specs/
 
 - Notify a user: 
 POST http://localhost:3000/api/v1/notifications/
