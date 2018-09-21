@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { NotesService } from '../services/notes.service';
 import { Note } from '../note';
 import { HttpErrorResponse } from '@angular/common/http';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-group-note-view',
@@ -14,6 +15,8 @@ export class GroupNoteViewComponent implements OnInit {
   errMessage: string;
   groupName: string;
   multiple: boolean;
+  groups: string[];
+  groupControl = new FormControl();
 
   constructor(
     private dialogRef: MatDialogRef<GroupNoteViewComponent>,
@@ -22,6 +25,10 @@ export class GroupNoteViewComponent implements OnInit {
 
   ngOnInit() {
     const data = this.data.noteId;
+    this.noteService.getNotes().subscribe(notes => this.groups = notes.map(n => n.groupName)
+    .filter((value, index, self) => {
+      return self.indexOf(value) === index && value;
+    }));
     if (data === 'multiple') {
       this.multiple = true;
     } else {
@@ -31,6 +38,7 @@ export class GroupNoteViewComponent implements OnInit {
   }
 
   onSave() {
+    this.note.groupName = this.groupControl.value;
     this.noteService.editNote(this.note).subscribe(
       data => this.dialogRef.close(),
       error => this.handleErrorResponse(error)
@@ -38,7 +46,7 @@ export class GroupNoteViewComponent implements OnInit {
   }
 
   onSaveMultiple() {
-    this.noteService.addSelectedToGroup(this.groupName);
+    this.noteService.addSelectedToGroup(this.groupControl.value);
     this.dialogRef.close();
   }
 

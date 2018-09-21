@@ -23,7 +23,8 @@ import {
   MatDatepickerModule,
   MatNativeDateModule,
   MatListModule,
-  MatMenuModule
+  MatMenuModule,
+  MatAutocompleteModule
 } from '@angular/material';
 
 // components inports
@@ -180,6 +181,7 @@ const appRoutes: Routes = [
     MatNativeDateModule,
     MatListModule,
     MatMenuModule,
+    MatAutocompleteModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [
