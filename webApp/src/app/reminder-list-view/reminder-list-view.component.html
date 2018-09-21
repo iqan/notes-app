@@ -1,19 +1,18 @@
-<h3>Reminds list:</h3>
+<h3>Reminders list:</h3>
 <!-- Label to display any error messages -->
 <label class="error-message">{{ errMessage }}</label>
 
 <div class="reminders-container">
   <div class="reminders-form">
     <mat-list>
-      <h3 matSubheader *ngIf="!reminders">
+      <mat-list-item *ngIf="!reminders">
         No reminders created yet
-      </h3>
+      </mat-list-item>
       <mat-divider></mat-divider>
-      <h3 matSubheader>Reminders</h3>
       <mat-list-item *ngFor="let reminder of reminders">
         <mat-icon matListIcon>access_alarms</mat-icon>
         <h4 matLine><b>Title: <span style="color: blue;">{{reminder.note.title}}</span></b></h4>
-        <p matLine> {{reminder.remindAt}} </p>
+        <p matLine> {{reminder.remindAt | date:'full' }} </p>
       </mat-list-item>
     </mat-list>
     <hr>
