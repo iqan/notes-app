@@ -2,7 +2,7 @@
 
 const appConfig = {
   port: process.env.PORT || 3002,
-  enableStub: process.env.ENABLE_STUB || 'no',
+  enableStub: process.env.ENABLE_STUB || 'yes',
   userProfileUrl: process.env.USER_PROFILE_URL || 'http://localhost:3001/',
   notificationsApiUrl: process.env.NOTIFICATIONS_API_URL || 'http://localhost:3003/'
 };

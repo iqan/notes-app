@@ -2,34 +2,16 @@ const notesDao = require('./notes.dao');
 const usersService = require('../../../services').userServices;
 const notificationService = require('../../../services').notificationServices;
 
-const getNotesByUserId = (res, userId) => {
-  notesDao.getAllNotes(userId)
-    .then((result) => {
-      res.status(result.status).json(result.notes);
-    })
-    .catch((error) => {
-      res.status(error.status).json(error);
-    });
+const getNotesByUserId = (userId) => {
+  return notesDao.getAllNotes(userId)
 }
 
-const updateNote = (res, noteId, note) => {
-  notesDao.updateNote(noteId, note)
-    .then((result) => {
-      res.status(result.status).json(result.note);
-    })
-    .catch((error) => {
-      res.status(error.status).json(error);
-    });
-}
+const updateNote = (noteId, note) => {
+  return notesDao.updateNote(noteId, note);
+};
 
-const addNote = (res, userId, note) => {
-  notesDao.createNote(userId, note)
-    .then((result) => {
-      res.status(result.status).json(result.note);
-    })
-    .catch((error) => {
-      res.status(error.status).json(error);
-    });
+const addNote = (userId, note) => {
+  return notesDao.createNote(userId, note);
 }
 
 const getNotesAsStream = (res, userId) => {
@@ -43,70 +25,40 @@ const getNotesAsStream = (res, userId) => {
     });
 }
 
-const uploadNotes = (res, userId, notes) => {
-  notesDao.bulkInsert(userId, notes)
-    .then((result) => {
-      res.status(201).json(result.notes);
-    })
-    .catch((error) => {
-      res.status(error.status).json(error);
-    });
-}
+const uploadNotes = (userId, notes) => {
+  return notesDao.bulkInsert(userId, notes);
+};
 
-const shareNotes = (res, collaborator, notes, token) => {
+const shareNotes = (collaborator, notes, token) => {
   const user = usersService.getUserByUserName(collaborator.userName);
   if (user) {
     collaborator.userId = user.userId;
   }
-  notesDao.addCollaborator(collaborator, notes)
+  return new Promise((resolve, reject) => {
+    notesDao.addCollaborator(collaborator, notes)
     .then((result) => {
-      notificationService.notifyUser(collaborator.userName, notes, token);  
-      res.status(200).json(result);
+      notificationService.notifyUser(collaborator.userName, notes, token);
+      resolve(result);
     })
-    .catch((error) => {
-      res.status(error.status).json(error);
-    });
-}
+    .catch((error) => reject(error));
+  });
+};
 
-const deleteNote = (res, noteId) => {
-  notesDao.deleteNote(noteId)
-    .then((result) => {
-      res.status(200).json(result);
-    })
-    .catch((error) => {
-      res.status(error.status).json(error);
-    });
-}
+const deleteNote = (noteId) => {
+  return notesDao.deleteNote(noteId);
+};
 
-const deleteMultipleNote = (res, noteIds) => {
-  notesDao.deleteNotes(noteIds)
-    .then((result) => {
-      res.status(200).json(result);
-    })
-    .catch((error) => {
-      res.status(error.status).json(error);
-    });
-}
+const deleteMultipleNote = (noteIds) => {
+  return notesDao.deleteNotes(noteIds);
+};
 
-const addToFavourites = (res, noteIds) => {
-  notesDao.addToFavourites(noteIds)
-    .then((result) => {
-      res.status(200).json(result);
-    })
-    .catch((error) => {
-      res.status(error.status).json(error);
-    });
-}
+const addToFavourites = (noteIds) => {
+  return notesDao.addToFavourites(noteIds);
+};
 
-const addToGroup = (res, groupName, noteIds) => {
-  notesDao.addToGroup(groupName, noteIds)
-    .then((result) => {
-      res.status(200).json(result);
-    })
-    .catch((error) => {
-      res.status(error.status).json(error);
-    });
-}
+const addToGroup = (groupName, noteIds) => {
+  return notesDao.addToGroup(groupName, noteIds);
+};
 
 module.exports = {
   getNotesByUserId,
