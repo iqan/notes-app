@@ -31,7 +31,7 @@ Run application ``` npm start ```
 
 ### API Specification:
 - Swagger UI:
-Browse - http://localhost:3000/api-specs/
+Browse - http://localhost:3000/api/v1/users/api-specs/
 
 - Register:
 POST http://localhost:3000/api/v1/users/register
@@ -41,28 +41,9 @@ Body: ```{ "username": <username>, "password": <password> }```
 POST http://localhost:3000/api/v1/users/login
 Body: ```{ "username": <username>, "password": <password> }```
 
-- Get all notes for a user: 
-GET http://localhost:3000/api/v1/notes
+- Get all usernames: 
+GET http://localhost:3000/api/v1/users/getall
 Headers: ```Authorization Bearer <jwt-token>```
-
-- Add a note for a user: 
-POST http://localhost:3000/api/v1/notes
-Body: ```{ "title": <title>, "text": <text>, "state": <state> }```
-Headers: ```Authorization Bearer <jwt-token>```
-
-- Update a note for a user: 
-PUT http://localhost:3000/api/v1/notes/<noteId>
-Body: ```{ "title": <title>, "text": <text>, "state": <state> }```
-Headers: ```Authorization Bearer <jwt-token>```
-
-- Get all notes for a user as stream: 
-GET http://localhost:3000/api/v1/notes/stream
-Headers: ```Authorization Bearer <jwt-token>```
-
-- Insert bulk notes for a user: 
-POST http://localhost:3000/api/v1/notes/stream
-Headers: ```Authorization Bearer <jwt-token>```
-Body: ```[{ "title": <title>, "text": <text>, "state": <state> }]```
 
 ### How to for Development
 

@@ -67,6 +67,30 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  /getall:
+    get:
+      summary: Get all users
+      tags:
+        [ 'users' ]
+      responses:
+        '200':
+          description: All usernames
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Users"
+        '403':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 components:
   securitySchemes:
     BearerAuth:
@@ -85,6 +109,10 @@ components:
           type: string
         password:
           type: string
+    Users:
+      type: array
+      items:
+        type: "string"
     Error:
       required:
         - message
