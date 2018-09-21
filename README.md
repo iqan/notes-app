@@ -15,3 +15,11 @@ This is a simple node.js application with MongoDB access, can be used to impleme
 ```docker-compose up --build ```
 - Stop
 ```docker-compose down ```
+
+#### Individual service documentations
+- [User Profile Service](./userProfileService/README.md)
+- [Notes Service](./notesService/README.md)
+- [Notifications Service](./notificationService/README.md)
+
+#### Architecture
+![Architecture diagram](./na_architecture.jpg "notes-app-architecture")
