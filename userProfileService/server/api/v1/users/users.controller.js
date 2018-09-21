@@ -37,9 +37,14 @@ const getByUserName = (req, res) => {
     });
 }
 
+const getAll = (req, res) => {
+  res.status(403).json('not implemented');
+}
+
 module.exports = {
   register,
   login,
   isAuthenticated,
-  getByUserName
+  getByUserName,
+  getAll
 }

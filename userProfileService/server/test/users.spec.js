@@ -279,4 +279,20 @@ describe('Testing Internal API calls', function() {
         done();
       });
   });
+
+  describe('Getting all users', function() {
+    it('Should return list of registered users', function (done) {
+      request(app)
+      .get('/api/v1/users/getall')
+      .expect(200)
+      .end((error, response) => {
+        if(error) return done(error);
+        const body = response.body;
+        body.should.not.equal(undefined);
+        body.should.not.equal(null);
+        body.should.be.a('array', 'should return an array of usernames');
+        done();
+      });
+    });
+  });
 });
