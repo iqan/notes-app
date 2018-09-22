@@ -92,7 +92,8 @@ const updateReminder = (notificationId, notification) => {
     try {
       const notificationToAdd = new notificationsModel({
         _id: notificationId,
-        remindAt: notification.remindAt
+        remindAt: notification.remindAt,
+        isSent: false
       });
   
       notificationToAdd.findAndUpdateNotification((err, savedNotification) => {

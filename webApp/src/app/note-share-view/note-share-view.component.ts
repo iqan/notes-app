@@ -3,6 +3,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { NotesService } from '../services/notes.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Note } from '../note';
+import { AuthenticationService } from '../services/authentication.service';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-note-share-view',
@@ -12,15 +14,17 @@ import { Note } from '../note';
 export class NoteShareViewComponent implements OnInit {
   note: Note;
   errMessage: string;
-  collaborator: string;
   accessType: string;
   acTypes: Array<string> = [ 'viewer', 'editor' ];
   multiple: boolean;
+  userNames: Array<string>;
+  userNameControl = new FormControl();
 
   constructor(
     private dialogRef: MatDialogRef<NoteShareViewComponent>,
     @Inject(MAT_DIALOG_DATA) private data: any,
-    private noteService: NotesService) { }
+    private noteService: NotesService,
+    private authService: AuthenticationService) { }
 
   ngOnInit() {
     const data = this.data.noteId;
@@ -30,17 +34,21 @@ export class NoteShareViewComponent implements OnInit {
       this.multiple = false;
       this.note = this.noteService.getNoteById(data);
     }
+    this.authService.getUserNames().subscribe(
+      usernames => this.userNames = usernames,
+      error => this.handleErrorResponse(error)
+    );
   }
 
   onSave() {
-    this.noteService.shareNotes(this.collaborator, this.accessType, [ this.note ]).subscribe(
+    this.noteService.shareNotes(this.userNameControl.value, this.accessType, [ this.note ]).subscribe(
       data => this.dialogRef.close(),
       error => this.handleErrorResponse(error)
     );
   }
 
   onSaveMultiple() {
-    this.noteService.shareNotes(this.collaborator, this.accessType).subscribe(
+    this.noteService.shareNotes(this.userNameControl.value, this.accessType).subscribe(
       data => this.dialogRef.close(),
       error => this.handleErrorResponse(error)
     );

@@ -9,7 +9,10 @@
       <hr>
     </div>
     <mat-form-field>
-      <input [(ngModel)]="collaborator" name="collaborator" matInput placeholder="User Email" type="text">
+      <input [formControl]="userNameControl" matInput placeholder="User name" type="text" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let user of userNames" [value]="user">{{user}}</mat-option>
+      </mat-autocomplete>
     </mat-form-field>
     <mat-form-field>
       <mat-select name="editStatus" placeholder="Select Access Type" [(ngModel)]="accessType">

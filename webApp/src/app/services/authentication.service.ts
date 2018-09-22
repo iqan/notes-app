@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Login } from '../login';
 import 'rxjs/add/operator/map';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
@@ -64,5 +64,12 @@ export class AuthenticationService {
     localStorage.removeItem('userName');
     this.isAuthenticatedSubject.next(false);
     this.isAuthenticated = false;
+  }
+
+  getUserNames(): Observable<Array<string>> {
+    const token = this.getBearerToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.httpClient.get<Array<string>>(`${this.baseUrl}getall`, { headers: headers })
+      .map(data => data.filter(u => u !== this.getUserName()));
   }
 }
