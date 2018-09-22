@@ -1,5 +1,5 @@
 ## Notes App
-This is a simple node.js application with MongoDB access, can be used to implementation for CRUD operations with MongoDB
+This is a simple notes system containing multiple microservices and built using node.js. The app contains frontend app, backend APIs and a worker. 
 
 ### Application Details:
 - User can register and login
