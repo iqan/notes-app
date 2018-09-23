@@ -17,7 +17,9 @@ export class NotificationComponent implements OnInit {
   ngOnInit() {
     setTimeout(() => {
       this.socketService.getNotificationSubject().subscribe(
-        notification => this.snackBar.open(notification, 'Done'),
+        notification => this.snackBar.open(notification, 'Done', {
+          duration: 2000
+        }),
         err => { }
       );
     });
