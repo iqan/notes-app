@@ -39,14 +39,15 @@ const doWork = () => {
             .catch(err => log.error(err));
           }
         }
-      });      
+      });
     }
   });
   log.info('process completed, waiting for next round ...');
 }
 
 const IsLessThanCurrentTime = (remindAt) => {
-  log.debug('checking datetime: now: ' + new Date() + ' and reminder: ' + new Date(remindAt));
+  log.debug('checking datetime: now: ' + new Date().toISOString() + 
+    ' and reminder: ' + new Date(remindAt).toISOString());
   return new Date() >= new Date(remindAt);
 }
 

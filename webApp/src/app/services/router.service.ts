@@ -4,7 +4,6 @@ import { Location } from '@angular/common';
 
 @Injectable()
 export class RouterService {
-
   constructor(private router: Router, private location: Location) { }
 
   routeToDashboard() {
@@ -78,6 +77,18 @@ export class RouterService {
         outlets :
         {
           noteReminderListOutlet : [ 'note', 'reminders' ]
+        }
+      }
+    ]);
+  }
+
+  routeToSnoozeView(notificationId) {
+    this.router.navigate([
+      'dashboard',
+      {
+        outlets :
+        {
+          noteReminderSnoozeListOutlet : [ 'note', 'reminders', notificationId, 'snooze' ]
         }
       }
     ]);

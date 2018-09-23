@@ -18,8 +18,8 @@ export class ReminderService {
     private authenticationService: AuthenticationService) {
       this.reminders = [];
       this.remindersSubject = new BehaviorSubject(this.reminders);
+      this.fetchRemindersFromServer();
     }
-
 
   fetchRemindersFromServer(): void {
     const headers = this.getAuthorizationHeader();
@@ -46,6 +46,27 @@ export class ReminderService {
     return this.httpClient.post<any>(`${this.baseUrl}`, reminder, { headers })
       .pipe(tap(
         data => {
+          this.reminders.push(data.notification);
+          this.remindersSubject.next(this.reminders);
+        },
+        error => { }
+      ));
+  }
+
+  snoozeReminder(id: string, min: number): Observable<any> {
+    const headers = this.getAuthorizationHeader();
+    if (this.reminders.length === 0) {
+      this.fetchRemindersFromServer();
+    }
+    const reminder = this.reminders.find(r => r._id === id);
+    const tempRemindAt = new Date(reminder.remindAt);
+    tempRemindAt.setMinutes(tempRemindAt.getMinutes() + min);
+    reminder.remindAt = tempRemindAt;
+
+    return this.httpClient.put<any>(`${this.baseUrl}/${id}`, reminder, { headers })
+      .pipe(tap(
+        data => {
+          this.reminders = this.reminders.filter(r => r._id !== id);
           this.reminders.push(data);
           this.remindersSubject.next(this.reminders);
         },

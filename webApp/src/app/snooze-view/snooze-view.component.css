@@ -1,0 +1,14 @@
+.remind-notes-container {
+  width: 30vw;
+  margin: 20px auto;
+}
+
+.note-remind-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.btn-remind-note {
+  display: flex;
+  justify-content: space-between;
+}

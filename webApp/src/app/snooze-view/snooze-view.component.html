@@ -1,0 +1,19 @@
+<h3>Snooze reminder:</h3>
+<!-- Label to display any error messages -->
+<label class="error-message">{{ errMessage }}</label>
+
+<div class="remind-notes-container">
+  <div class="note-remind-form">
+    <mat-form-field>
+      <mat-select name="mi" placeholder="Select Minutes" [(ngModel)]="min">
+        <mat-option *ngFor="let m of minList" [value]="m">
+          {{ m }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <hr>
+    <div class="btn-remind-note">
+      <button mat-raised-button color="primary" (click)="onSave()">Save</button>
+    </div>
+  </div>
+</div>

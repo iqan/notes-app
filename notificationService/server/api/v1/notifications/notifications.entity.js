@@ -45,7 +45,8 @@ notificationsSchema.methods.findAndUpdateNotification = function (callback) {
   return this.model('notification').findOneAndUpdate(
     { _id: this._id },
     { $set: {
-        remindAt: this.remindAt
+        remindAt: this.remindAt,
+        isSent: this.isSent
       }
     },
     { new: true },

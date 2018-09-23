@@ -50,6 +50,7 @@ import { ReminderOpenerComponent } from './reminder-opener/reminder-opener.compo
 import { ReminderViewComponent } from './reminder-view/reminder-view.component';
 import { ReminderListOpenerComponent } from './reminder-list-opener/reminder-list-opener.component';
 import { ReminderListViewComponent } from './reminder-list-view/reminder-list-view.component';
+import { SnoozeViewComponent } from './snooze-view/snooze-view.component';
 
 // Pipe
 import { FilterNotesPipePipe } from './filter-notes-pipe.pipe';
@@ -64,6 +65,7 @@ import { ReminderService } from './services/reminder.service';
 
 // guards imports
 import { CanActivateRouteGuard } from './can-activate-route.guard';
+import { SnoozeOpenerComponent } from './snooze-opener/snooze-opener.component';
 
 // custom routes
 const appRoutes: Routes = [
@@ -121,6 +123,11 @@ const appRoutes: Routes = [
         path : 'note/reminders',
         component : ReminderListOpenerComponent,
         outlet : 'noteReminderListOutlet'
+      },
+      {
+        path : 'note/reminders/:notificationId/snooze',
+        component : SnoozeOpenerComponent,
+        outlet : 'noteReminderSnoozeListOutlet'
       }
     ]
   },
@@ -155,7 +162,9 @@ const appRoutes: Routes = [
     ReminderOpenerComponent,
     ReminderViewComponent,
     ReminderListOpenerComponent,
-    ReminderListViewComponent
+    ReminderListViewComponent,
+    SnoozeViewComponent,
+    SnoozeOpenerComponent
   ],
   imports: [
     BrowserModule,
@@ -199,7 +208,8 @@ const appRoutes: Routes = [
     GroupNoteViewComponent,
     NoteShareViewComponent,
     ReminderViewComponent,
-    ReminderListViewComponent
+    ReminderListViewComponent,
+    SnoozeViewComponent
    ]
 })
 
