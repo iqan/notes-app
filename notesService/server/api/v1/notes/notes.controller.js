@@ -14,7 +14,8 @@ const getNotes = (req, res) => {
 const updateNote = (req, res) => {
   const note = req.body;
   const noteId = req.params.noteId;
-  notesService.updateNote(noteId, note)
+  const userId = req.query.userId || req.userData.userId;
+  notesService.updateNote(userId, noteId, note)
     .then((result) => {
       res.status(result.status).json(result.note);
     })
@@ -71,7 +72,8 @@ const shareNotes = (req, res) => {
 
 const deleteNote = (req, res) => {
   const noteId = req.params.noteId;
-  notesService.deleteNote(noteId)
+  const userId = req.query.userId || req.userData.userId;
+  notesService.deleteNote(userId, noteId)
     .then((result) => {
       res.status(200).json(result);
     })
@@ -82,7 +84,8 @@ const deleteNote = (req, res) => {
 
 const deleteMultipleNotes = (req, res) => {
   const noteIds = req.body;
-  notesService.deleteMultipleNote(noteIds)
+  const userId = req.query.userId || req.userData.userId;
+  notesService.deleteMultipleNote(userId, noteIds)
     .then((result) => {
       res.status(200).json(result);
     })

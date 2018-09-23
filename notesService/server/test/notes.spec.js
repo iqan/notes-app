@@ -353,7 +353,7 @@ describe('Delete note scenarios', function (){
       if(err) return done(err);
       request(app)
         .delete(`/api/v1/notes/`)
-        .send([ savedNote ])
+        .send([ savedNote.id ])
         .set('Authorization', 'Bearer ' + user1Token)
         .expect(200)
         .end((error, response) => {

@@ -217,6 +217,32 @@ const addToGroup = (groupName, noteIds) => {
   });
 }
 
+const isUserAllowed = (userId, noteId) => {
+  return new Promise((resolve, reject) => {
+    try {
+      log.info(`checking note (${noteId}) permissions for user: ${userId}`);
+
+      noteModel.findOne({ id: noteId }, (err, note) => {
+        if(err) throw err;
+        if(!note) throw new Error('Note could not be found for id: ' + noteId);
+        let collaborator;
+        if(note.collaborators) {
+          collaborator = note.collaborators.find(c => c.userId === userId && c.type == 'editor');
+        }
+        if(note.userId === userId || collaborator) {
+          resolve();
+        }
+        else {
+          reject({ message: 'Access denied', status: 400 });
+        }
+      });
+    } catch (err) {
+      log.error(err);
+      reject({ message: 'Failed while checking permissions due to unexpected error', status: 500 });
+    }
+  });
+}
+
 module.exports = {
   createNote,
   getAllNotes,
@@ -227,5 +253,6 @@ module.exports = {
   deleteNote,
   deleteNotes,
   addToFavourites,
-  addToGroup
+  addToGroup,
+  isUserAllowed
 }

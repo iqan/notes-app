@@ -6,8 +6,12 @@ const getNotesByUserId = (userId) => {
   return notesDao.getAllNotes(userId)
 }
 
-const updateNote = (noteId, note) => {
-  return notesDao.updateNote(noteId, note);
+const updateNote = (userId, noteId, note) => {
+  return new Promise((resolve, reject) => {
+    notesDao.isUserAllowed(userId, noteId)
+    .then(() => resolve(notesDao.updateNote(noteId, note)))
+    .catch(err => reject(err));
+  });
 };
 
 const addNote = (userId, note) => {
@@ -44,12 +48,20 @@ const shareNotes = (collaborator, notes, token) => {
   });
 };
 
-const deleteNote = (noteId) => {
-  return notesDao.deleteNote(noteId);
+const deleteNote = (userId, noteId) => {
+  return new Promise((resolve, reject) => {
+    notesDao.isUserAllowed(userId, noteId)
+    .then(() => resolve(notesDao.deleteNote(noteId)))
+    .catch(err => reject(err));
+  });
 };
 
-const deleteMultipleNote = (noteIds) => {
-  return notesDao.deleteNotes(noteIds);
+const deleteMultipleNote = (userId, noteIds) => {
+  return new Promise((resolve, reject) => {
+    notesDao.isUserAllowed(userId, noteIds[0])
+    .then(() => resolve(notesDao.deleteNotes(noteIds)))
+    .catch(err => reject(err));
+  });
 };
 
 const addToFavourites = (noteIds) => {
