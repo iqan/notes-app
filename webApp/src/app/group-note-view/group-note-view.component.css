@@ -1,0 +1,14 @@
+.group-notes-container {
+  width: 30vw;
+  margin: 20px auto;
+}
+
+.note-group-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.btn-group-note {
+  display: flex;
+  justify-content: space-between;
+}

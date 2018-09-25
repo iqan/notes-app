@@ -1,0 +1,31 @@
+.login-container {
+  width: 50vw;
+  margin: 20px auto;
+}
+
+.login-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-wrapper > * {
+  width: 100%;
+}
+
+.btn-login {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.error-message {
+  color: red;
+}
+
+.success-message {
+  color: green;
+}
+
+.register-link {
+  display: flex;
+  justify-content: flex-end;
+}

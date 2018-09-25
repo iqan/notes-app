@@ -1,0 +1,22 @@
+<mat-card class="note-card" (mouseenter) ="showActions = true"  (mouseleave) ="showActions = false">
+  <div class="check-btn" *ngIf="showActions || mobileQuery.matches || isSelected">
+    <i *ngIf="!isSelected" class="material-icons" style="cursor: pointer;" (click)="markNote(note.id)">
+      check_circle_outline
+    </i>
+    <i *ngIf="isSelected" class="material-icons" style="cursor: pointer;" (click)="markNote(note.id)">
+      check_circle
+    </i>
+  </div>
+  <div (click) = "openEditView()">
+    <mat-card-title>{{ note.title }}</mat-card-title>
+    <mat-card-content>{{ note.text }}</mat-card-content>
+  </div>
+  <div *ngIf="showActions || mobileQuery.matches">
+    <br>
+    <button mat-mini-fab color="warn" (click)="deleteNote(note.id)" matTooltip="Delete note"><i class="material-icons">delete</i></button>
+    <button mat-mini-fab (click)="markAsFavourite(note.id)" matTooltip="Mark note as favourite"><i class="material-icons">favorite</i></button>
+    <button mat-mini-fab color="link" (click)="addToGroup(note.id)" matTooltip="Add note to a group"><i class="material-icons">label</i></button>
+    <button mat-mini-fab color="primary" (click)="shareNote(note.id)" matTooltip="Share a note"><i class="material-icons">share</i></button>
+    <button mat-mini-fab style="background-color: green;" (click)="remind(note.id)" matTooltip="Remind a note"><i class="material-icons">access_alarms</i></button>
+  </div>
+</mat-card>

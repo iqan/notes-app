@@ -1,0 +1,23 @@
+.edit-notes-container {
+    width: 30vw;
+    margin: 20px auto;
+}
+
+.note-edit-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.btn-edit-note {
+    display: flex;
+    justify-content: space-between;
+}
+
+.delete-button {
+  background-color: red;
+  color: white;
+  line-height: 30px;
+  padding: 0px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}

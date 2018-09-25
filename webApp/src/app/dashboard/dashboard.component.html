@@ -1,0 +1,16 @@
+<mat-sidenav-container>
+  <mat-sidenav #sidenav class="sidemenu" [mode]="!mobileQuery.matches ? 'side': 'over'" [opened]="!mobileQuery.matches">
+    <app-sidebar></app-sidebar>
+  </mat-sidenav>
+  <mat-sidenav-content class="main-content">
+    <app-note-taker></app-note-taker>
+    <router-outlet></router-outlet>
+    <router-outlet name="noteEditOutlet"></router-outlet>
+    <router-outlet name="noteGroupOutlet"></router-outlet>
+    <router-outlet name="noteShareOutlet"></router-outlet>
+    <router-outlet name="noteRemindOutlet"></router-outlet>
+    <router-outlet name="noteReminderListOutlet"></router-outlet>
+    <router-outlet name="noteReminderSnoozeListOutlet"></router-outlet>
+    <app-notification></app-notification>
+  </mat-sidenav-content>
+</mat-sidenav-container>

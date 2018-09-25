@@ -1,0 +1,19 @@
+.add-notes-container {
+  width: 50vw;
+  margin: 20px auto;
+}
+
+.note-taker-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.btn-add-note {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.note-taker-container {
+  display: flex;
+}

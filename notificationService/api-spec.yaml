@@ -1,0 +1,190 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Notes App - Notifications Service
+servers:
+  - url: http://localhost:3000/api/v1
+paths:
+  /notifications:
+    post:
+      summary: Notify a user
+      security:
+        - BearerAuth: []
+      tags:
+        [ 'notifications' ]
+      requestBody:
+        description: notification details
+        required: true
+        content:
+           application/json:
+            schema:
+              $ref: "#/components/schemas/Notification"
+      responses:
+        '201':
+          description: Created notification
+        '403':
+          description: UnAuthorized or forbidden
+        '500':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /notifications/reminders:
+    post:
+      summary: add a reminder
+      security:
+        - BearerAuth: []
+      tags:
+        [ 'reminders' ]
+      requestBody:
+        description: reminder details
+        required: true
+        content:
+           application/json:
+            schema:
+              $ref: "#/components/schemas/Reminder"
+      responses:
+        '201':
+          description: Created reminder
+        '403':
+          description: UnAuthorized or forbidden
+        '500':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    get:
+      summary: List all reminders
+      security:
+        - BearerAuth: []
+      tags:
+        [ 'reminders' ]
+      responses:
+        '200':
+          description: An array of reminders
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Reminders"
+        '403':
+          description: UnAuthorized or forbidden
+        '500':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /notifications/reminders/{reminderId}:
+    put:
+      summary: Update a specific reminder
+      security:
+        - BearerAuth: []
+      operationId: updateReminderById
+      tags:
+        - reminders
+      parameters:
+        - name: reminderId
+          in: path
+          required: true
+          description: The id of the reminder to update
+          schema:
+            type: string
+      requestBody:
+        description: reminder details
+        required: true
+        content:
+           application/json:
+            schema:
+              $ref: "#/components/schemas/Reminder"
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Reminder"
+        '403':
+          description: UnAuthorized or forbidden
+        '500':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: Delete a specific reminder
+      security:
+        - BearerAuth: []
+      operationId: deleteReminderById
+      tags:
+        - reminders
+      parameters:
+        - name: reminderId
+          in: path
+          required: true
+          description: The id of the reminder to delete
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Reminder"
+        '403':
+          description: UnAuthorized or forbidden
+        '500':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    Notification:
+      required:
+        - userName
+        - note
+      properties:
+        userName:
+          type: string
+        note:
+          $ref: "#/components/schemas/Note"
+    Reminder:
+      required:
+        - userName
+        - note
+        - remindAt
+      properties:
+        userName:
+          type: string
+        remindAt:
+          type: string
+        note:
+          $ref: "#/components/schemas/Note"
+    Note:
+      required:
+        - title
+        - text
+      properties:
+        title:
+          type: string
+        text:
+          type: string
+    Reminders:
+      type: array
+      items:
+        $ref: "#/components/schemas/Reminder"
+    Error:
+      required:
+        - message
+      properties:
+        message:
+          type: string

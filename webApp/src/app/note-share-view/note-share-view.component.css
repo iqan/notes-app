@@ -1,0 +1,14 @@
+.share-notes-container {
+  width: 30vw;
+  margin: 20px auto;
+}
+
+.note-share-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.btn-share-note {
+  display: flex;
+  justify-content: space-between;
+}

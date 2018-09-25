@@ -1,0 +1,24 @@
+<!-- Label to display any error messages -->
+<label class="error-message">{{ errMessage }}</label>
+
+<div class="edit-notes-container">
+  <div class="note-edit-form">
+    <mat-form-field>
+      <input [(ngModel)]="note.title" name="editTitle" matInput placeholder="Title" type="text">
+    </mat-form-field>
+    <mat-form-field>
+      <textarea [(ngModel)]="note.text" name="editText" matInput placeholder="Text"></textarea>
+    </mat-form-field>
+    <mat-form-field>
+    <mat-select name="editStatus" placeholder="Select state" [(ngModel)]="note.state">
+      <mat-option *ngFor="let state of states" [value]="state">
+        {{ state }}
+      </mat-option>
+    </mat-select>
+    </mat-form-field>
+    <div class="btn-edit-note">
+      <span class="delete-button" (click)="deleteNote(note.id)">Delete</span>
+      <button mat-raised-button color="primary" (click)="onSave()">Save</button>
+    </div>
+  </div>
+</div>

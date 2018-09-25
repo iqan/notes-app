@@ -1,0 +1,124 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Notes App - User Profile Service
+servers:
+  - url: http://localhost:3000/api/v1/users
+paths:
+  /register:
+    post:
+      summary: Create a user
+      tags:
+        [ 'users' ]
+      requestBody:
+        description: user details
+        required: true
+        content:
+           application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        '201':
+          description: Created user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        '403':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /login:
+    post:
+      summary: Login
+      tags:
+        [ 'users' ]
+      requestBody:
+        description: login details
+        required: true
+        content:
+           application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        '201':
+          description: Logged in user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        '403':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /getall:
+    get:
+      summary: Get all users
+      tags:
+        [ 'users' ]
+      responses:
+        '200':
+          description: All usernames
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Users"
+        '403':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    User:
+      required:
+        - name
+        - userName
+        - password
+      properties:
+        name:
+          type: string
+        userName:
+          type: string
+        password:
+          type: string
+    Users:
+      type: array
+      items:
+        type: "string"
+    Error:
+      required:
+        - message
+        - errorCode
+      properties:
+        message:
+          type: string
+        errorCode:
+          type: string

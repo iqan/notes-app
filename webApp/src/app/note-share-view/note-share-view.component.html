@@ -1,0 +1,29 @@
+<h3>Share a note:</h3>
+<!-- Label to display any error messages -->
+<label class="error-message">{{ errMessage }}</label>
+
+<div class="share-notes-container">
+  <div class="note-share-form">
+    <div *ngIf="!multiple">
+      <mat-label>{{ note.title }}</mat-label>
+      <hr>
+    </div>
+    <mat-form-field>
+      <input [formControl]="userNameControl" matInput placeholder="User name" type="text" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let user of userNames" [value]="user">{{user}}</mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select name="editStatus" placeholder="Select Access Type" [(ngModel)]="accessType">
+        <mat-option *ngFor="let acType of acTypes" [value]="acType">
+          {{ acType }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="btn-share-note">
+      <button *ngIf="!multiple" mat-raised-button color="primary" (click)="onSave()">Save</button>
+      <button *ngIf="multiple" mat-raised-button color="primary" (click)="onSaveMultiple()">Add</button>
+    </div>
+  </div>
+</div>

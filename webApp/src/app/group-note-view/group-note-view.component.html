@@ -1,0 +1,30 @@
+<h3>Add note to a group:</h3>
+<!-- Label to display any error messages -->
+<label class="error-message">{{ errMessage }}</label>
+
+<div class="group-notes-container">
+  <div class="note-group-form" *ngIf="!multiple">
+    <mat-label>{{ note.title }}</mat-label>
+    <hr>
+    <mat-form-field>
+      <input [formControl]="groupControl" name="editGroup" matInput placeholder="Group name" type="text" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let group of groups" [value]="group">{{group}}</mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <div class="btn-group-note">
+      <button mat-raised-button color="primary" (click)="onSave()">Save</button>
+    </div>
+  </div>
+  <div class="note-group-form" *ngIf="multiple">
+    <mat-form-field>
+      <input [formControl]="groupControl" name="editGroup" matInput placeholder="Group name" type="text" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let group of groups" [value]="group">{{group}}</mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <div class="btn-group-note">
+      <button mat-raised-button color="primary" (click)="onSaveMultiple()">Save</button>
+    </div>
+  </div>
+</div>

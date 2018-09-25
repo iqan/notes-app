@@ -1,0 +1,92 @@
+version: '3'
+
+networks:
+  na_network:
+    driver: bridge
+
+services:
+  na_web_app:
+    image: "iqan/na-web-app:1.0.0"
+    build: ./webApp
+    container_name: na_web_app
+    ports:
+     - "80:80"
+    networks:
+     - na_network
+    restart: on-failure
+    depends_on:
+      - na_api_gateway
+  na_api_gateway:
+    image: "iqan/na-api-gateway:1.0.0"
+    build: ./apiGateway
+    container_name: na_api_gateway
+    ports:
+     - "3000:3000"
+    networks:
+     - na_network
+    restart: on-failure
+    depends_on:
+      - na_user_profile
+      - na_notes_service
+      - na_notification_service
+    environment:
+      - USER_PROFILE_URL=http://na_user_profile:3001/
+      - NOTES_URL=http://na_notes_service:3002/
+      - NOTIFICATIONS_API_URL=http://na_notification_service:3003/
+  na_notes_service:
+    image: "iqan/na-notes-service:1.0.0"
+    build: ./notesService
+    container_name: na_notes_service
+    ports:
+     - "3002:3002"
+    networks:
+     - na_network
+    environment:
+     - MONGO_URL=mongodb://na_db:27017/notes-app
+     - USER_PROFILE_URL=http://na_user_profile:3001/
+     - NOTIFICATIONS_API_URL=http://na_notification_service:3003/
+     - ENABLE_STUB=no
+     - LOG_LEVEL=error
+    restart: on-failure
+    depends_on:
+      - na_db
+      - na_user_profile
+      - na_notification_service
+  na_notification_service:
+    image: "iqan/na-notification-service:1.0.0"
+    build: ./notificationService
+    container_name: na_notification_service
+    ports:
+     - "3003:3003"
+    networks:
+     - na_network
+    environment:
+     - MONGO_URL=mongodb://na_db:27017/notes-app
+     - SLEEP_DURATION=5000
+     - LOG_LEVEL=error
+    restart: on-failure
+    depends_on:
+      - na_db
+  na_user_profile:
+    image: "iqan/na-user-profile:1.0.0"
+    build: ./userProfileService
+    container_name: na_user_profile
+    ports:
+     - "3001:3001"
+    networks:
+     - na_network
+    environment:
+     - MONGO_URL=mongodb://na_db:27017/notes-app
+     - LOG_LEVEL=error
+    restart: on-failure
+    depends_on:
+      - na_db
+  na_db:
+    image: "mongo:4.1.1-xenial"
+    container_name: na_db
+    expose:
+      - 27017
+    ports:
+      - "27017:27017"
+    networks:
+      - na_network
